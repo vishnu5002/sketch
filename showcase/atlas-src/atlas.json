@@ -1,0 +1,2344 @@
+{
+ "tiers": [
+  {
+   "id": "t1",
+   "name": "Fully open pipelines",
+   "blurb": "Weights, data, code and logs are all public, so you can reproduce and study every step.",
+   "series": [
+    {
+     "name": "AI2 · OLMo & Tülu",
+     "org": "Allen Institute for AI",
+     "why": "Fully open pretraining and post-training. Tülu 3 coined RLVR.",
+     "papers": [
+      {
+       "date": "2023-06-07",
+       "dateLabel": "Jun 7, 2023",
+       "short": "Tülu 1: How Far Can Camels Go?",
+       "full": "How Far Can Camels Go? Exploring the State of Instruction Tuning on Open Resources",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2306.04751",
+       "id": "2306.04751"
+      },
+      {
+       "date": "2023-11-17",
+       "dateLabel": "Nov 17, 2023",
+       "short": "Tülu 2: Camels in a Changing Climate",
+       "full": "Camels in a Changing Climate: Enhancing LM Adaptation with Tulu 2",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2311.10702",
+       "id": "2311.10702"
+      },
+      {
+       "date": "2024-01-31",
+       "dateLabel": "Jan 31, 2024",
+       "short": "Dolma (pretraining corpus)",
+       "full": "Dolma: an Open Corpus of Three Trillion Tokens for Language Model Pretraining Research",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2402.00159",
+       "id": "2402.00159"
+      },
+      {
+       "date": "2024-02-01",
+       "dateLabel": "Feb 1, 2024",
+       "short": "OLMo",
+       "full": "OLMo: Accelerating the Science of Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2402.00838",
+       "id": "2402.00838"
+      },
+      {
+       "date": "2024-03-20",
+       "dateLabel": "Mar 20, 2024",
+       "short": "RewardBench",
+       "full": "RewardBench: Evaluating Reward Models for Language Modeling",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2403.13787",
+       "id": "2403.13787"
+      },
+      {
+       "date": "2024-09-03",
+       "dateLabel": "Sep 3, 2024",
+       "short": "OLMoE",
+       "full": "OLMoE: Open Mixture-of-Experts Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2409.02060",
+       "id": "2409.02060"
+      },
+      {
+       "date": "2024-09-25",
+       "dateLabel": "Sep 25, 2024",
+       "short": "Molmo & PixMo",
+       "full": "Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Vision-Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2409.17146",
+       "id": "2409.17146"
+      },
+      {
+       "date": "2024-11-22",
+       "dateLabel": "Nov 22, 2024",
+       "short": "Tülu 3",
+       "full": "Tulu 3: Pushing Frontiers in Open Language Model Post-Training",
+       "star": true,
+       "badges": [
+        "Introduces RLVR"
+       ],
+       "url": "https://arxiv.org/abs/2411.15124",
+       "id": "2411.15124"
+      },
+      {
+       "date": "2024-12-31",
+       "dateLabel": "Dec 31, 2024",
+       "short": "OLMo 2",
+       "full": "2 OLMo 2 Furious",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2501.00656",
+       "id": "2501.00656"
+      },
+      {
+       "date": "2025-12-15",
+       "dateLabel": "Dec 15, 2025",
+       "short": "OLMo 3",
+       "full": "",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2512.13961",
+       "id": "2512.13961"
+      },
+      {
+       "date": "2025-11-24",
+       "dateLabel": "Nov 24, 2025",
+       "short": "DR Tulu (deep research RL)",
+       "full": "DR Tulu: Reinforcement Learning with Evolving Rubrics for Deep Research",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2511.19399",
+       "id": "2511.19399"
+      },
+      {
+       "date": "2026-04-03",
+       "dateLabel": "Apr 3, 2026",
+       "short": "Olmo Hybrid",
+       "full": "Olmo Hybrid: From Theory to Practice and Back",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2604.03444",
+       "id": "2604.03444"
+      }
+     ]
+    },
+    {
+     "name": "Hugging Face · SmolLM, FineWeb & BigCode",
+     "org": "Hugging Face",
+     "why": "Shows how to build and ablate data; small models you can train yourself.",
+     "papers": [
+      {
+       "date": "2023-05-09",
+       "dateLabel": "May 9, 2023",
+       "short": "StarCoder",
+       "full": "StarCoder: may the source be with you!",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2305.06161",
+       "id": "2305.06161"
+      },
+      {
+       "date": "2023-10-25",
+       "dateLabel": "Oct 25, 2023",
+       "short": "Zephyr (distilled DPO)",
+       "full": "Zephyr: Direct Distillation of LM Alignment",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2310.16944",
+       "id": "2310.16944"
+      },
+      {
+       "date": "2024-02-29",
+       "dateLabel": "Feb 29, 2024",
+       "short": "StarCoder2 & The Stack v2",
+       "full": "StarCoder 2 and The Stack v2: The Next Generation",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2402.19173",
+       "id": "2402.19173"
+      },
+      {
+       "date": "2024-06-25",
+       "dateLabel": "Jun 25, 2024",
+       "short": "FineWeb",
+       "full": "The FineWeb Datasets: Decanting the Web for the Finest Text Data at Scale",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2406.17557",
+       "id": "2406.17557"
+      },
+      {
+       "date": "2025-02-04",
+       "dateLabel": "Feb 4, 2025",
+       "short": "SmolLM2",
+       "full": "SmolLM2: When Smol Goes Big -- Data-Centric Training of a Small Language Model",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2502.02737",
+       "id": "2502.02737"
+      },
+      {
+       "date": "2025-04-07",
+       "dateLabel": "Apr 7, 2025",
+       "short": "SmolVLM",
+       "full": "SmolVLM: Redefining small and efficient multimodal models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2504.05299",
+       "id": "2504.05299"
+      },
+      {
+       "date": null,
+       "dateLabel": null,
+       "short": "SmolLM3 (blog)",
+       "full": "",
+       "star": false,
+       "badges": [
+        "Blog"
+       ],
+       "url": "https://huggingface.co/blog/smollm3",
+       "id": "web"
+      },
+      {
+       "date": null,
+       "dateLabel": null,
+       "short": "Ultra-Scale Playbook",
+       "full": "",
+       "star": false,
+       "badges": [
+        "Guide"
+       ],
+       "url": "https://huggingface.co/spaces/nanotron/ultrascale-playbook",
+       "id": "web"
+      }
+     ]
+    },
+    {
+     "name": "EleutherAI · Pile & Pythia",
+     "org": "EleutherAI",
+     "why": "Training dynamics with checkpoints saved throughout training.",
+     "papers": [
+      {
+       "date": "2020-12-31",
+       "dateLabel": "Dec 31, 2020",
+       "short": "The Pile",
+       "full": "The Pile: An 800GB Dataset of Diverse Text for Language Modeling",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2101.00027",
+       "id": "2101.00027"
+      },
+      {
+       "date": "2022-04-14",
+       "dateLabel": "Apr 14, 2022",
+       "short": "GPT-NeoX-20B",
+       "full": "GPT-NeoX-20B: An Open-Source Autoregressive Language Model",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2204.06745",
+       "id": "2204.06745"
+      },
+      {
+       "date": "2023-04-03",
+       "dateLabel": "Apr 3, 2023",
+       "short": "Pythia",
+       "full": "Pythia: A Suite for Analyzing Large Language Models Across Training and Scaling",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2304.01373",
+       "id": "2304.01373"
+      },
+      {
+       "date": "2023-10-16",
+       "dateLabel": "Oct 16, 2023",
+       "short": "Llemma",
+       "full": "Llemma: An Open Language Model For Mathematics",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2310.10631",
+       "id": "2310.10631"
+      },
+      {
+       "date": "2024-05-23",
+       "dateLabel": "May 23, 2024",
+       "short": "Lessons from the Trenches (lm-eval-harness)",
+       "full": "Lessons from the Trenches on Reproducible Evaluation of Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2405.14782",
+       "id": "2405.14782"
+      }
+     ]
+    },
+    {
+     "name": "LLM360",
+     "org": "MBZUAI / LLM360",
+     "why": "Fully transparent releases with all intermediate checkpoints.",
+     "papers": [
+      {
+       "date": "2023-12-11",
+       "dateLabel": "Dec 11, 2023",
+       "short": "LLM360 (Amber, CrystalCoder)",
+       "full": "LLM360: Towards Fully Transparent Open-Source LLMs",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2312.06550",
+       "id": "2312.06550"
+      },
+      {
+       "date": "2025-01-13",
+       "dateLabel": "Jan 13, 2025",
+       "short": "LLM360 K2",
+       "full": "LLM360 K2: Building a 65B 360-Open-Source Large Language Model from Scratch",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2501.07124",
+       "id": "2501.07124"
+      },
+      {
+       "date": "2025-04-03",
+       "dateLabel": "Apr 3, 2025",
+       "short": "MegaMath",
+       "full": "MegaMath: Pushing the Limits of Open Math Corpora",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2504.02807",
+       "id": "2504.02807"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t2",
+   "name": "Open-weight labs with detailed reports",
+   "blurb": "Frontier-scale open models whose technical reports explain the recipe in depth.",
+   "series": [
+    {
+     "name": "DeepSeek",
+     "org": "DeepSeek-AI",
+     "why": "The reference for efficient MoE, MLA, sparse attention and RL for reasoning.",
+     "papers": [
+      {
+       "date": "2023-10-25",
+       "dateLabel": "Oct 25, 2023",
+       "short": "DreamCraft3D",
+       "full": "DreamCraft3D: Hierarchical 3D Generation with Bootstrapped Diffusion Prior",
+       "star": false,
+       "badges": [
+        "Co-authored"
+       ],
+       "url": "https://arxiv.org/abs/2310.16818",
+       "id": "2310.16818"
+      },
+      {
+       "date": "2023-12-14",
+       "dateLabel": "Dec 14, 2023",
+       "short": "Math-Shepherd",
+       "full": "Math-Shepherd: Verify and Reinforce LLMs Step-by-step without Human Annotations",
+       "star": false,
+       "badges": [
+        "Co-authored"
+       ],
+       "url": "https://arxiv.org/abs/2312.08935",
+       "id": "2312.08935"
+      },
+      {
+       "date": "2024-01-05",
+       "dateLabel": "Jan 5, 2024",
+       "short": "DeepSeek LLM",
+       "full": "DeepSeek LLM: Scaling Open-Source Language Models with Longtermism",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2401.02954",
+       "id": "2401.02954"
+      },
+      {
+       "date": "2024-01-11",
+       "dateLabel": "Jan 11, 2024",
+       "short": "DeepSeekMoE",
+       "full": "DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2401.06066",
+       "id": "2401.06066"
+      },
+      {
+       "date": "2024-01-25",
+       "dateLabel": "Jan 25, 2024",
+       "short": "DeepSeek-Coder",
+       "full": "DeepSeek-Coder: When the Large Language Model Meets Programming -- The Rise of Code Intelligence",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2401.14196",
+       "id": "2401.14196"
+      },
+      {
+       "date": "2024-02-05",
+       "dateLabel": "Feb 5, 2024",
+       "short": "DeepSeekMath",
+       "full": "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models",
+       "star": true,
+       "badges": [
+        "Introduces GRPO"
+       ],
+       "url": "https://arxiv.org/abs/2402.03300",
+       "id": "2402.03300"
+      },
+      {
+       "date": "2024-03-08",
+       "dateLabel": "Mar 8, 2024",
+       "short": "DeepSeek-VL",
+       "full": "DeepSeek-VL: Towards Real-World Vision-Language Understanding",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2403.05525",
+       "id": "2403.05525"
+      },
+      {
+       "date": "2024-05-07",
+       "dateLabel": "May 7, 2024",
+       "short": "DeepSeek-V2",
+       "full": "DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model",
+       "star": true,
+       "badges": [
+        "Introduces MLA"
+       ],
+       "url": "https://arxiv.org/abs/2405.04434",
+       "id": "2405.04434"
+      },
+      {
+       "date": "2024-05-23",
+       "dateLabel": "May 23, 2024",
+       "short": "DeepSeek-Prover",
+       "full": "DeepSeek-Prover: Advancing Theorem Proving in LLMs through Large-Scale Synthetic Data",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2405.14333",
+       "id": "2405.14333"
+      },
+      {
+       "date": "2024-06-17",
+       "dateLabel": "Jun 17, 2024",
+       "short": "DeepSeek-Coder-V2",
+       "full": "DeepSeek-Coder-V2: Breaking the Barrier of Closed-Source Models in Code Intelligence",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2406.11931",
+       "id": "2406.11931"
+      },
+      {
+       "date": "2024-07-02",
+       "dateLabel": "Jul 2, 2024",
+       "short": "ESFT",
+       "full": "Let the Expert Stick to His Last: Expert-Specialized Fine-Tuning for Sparse Architectural Large Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2407.01906",
+       "id": "2407.01906"
+      },
+      {
+       "date": "2024-08-15",
+       "dateLabel": "Aug 15, 2024",
+       "short": "DeepSeek-Prover-V1.5",
+       "full": "DeepSeek-Prover-V1.5: Harnessing Proof Assistant Feedback for Reinforcement Learning and Monte-Carlo Tree Search",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2408.08152",
+       "id": "2408.08152"
+      },
+      {
+       "date": "2024-08-26",
+       "dateLabel": "Aug 26, 2024",
+       "short": "Fire-Flyer AI-HPC",
+       "full": "Fire-Flyer AI-HPC: A Cost-Effective Software-Hardware Co-Design for Deep Learning",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2408.14158",
+       "id": "2408.14158"
+      },
+      {
+       "date": "2024-08-28",
+       "dateLabel": "Aug 28, 2024",
+       "short": "Auxiliary-Loss-Free Load Balancing",
+       "full": "Auxiliary-Loss-Free Load Balancing Strategy for Mixture-of-Experts",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2408.15664",
+       "id": "2408.15664"
+      },
+      {
+       "date": "2024-10-17",
+       "dateLabel": "Oct 17, 2024",
+       "short": "Janus",
+       "full": "Janus: Decoupling Visual Encoding for Unified Multimodal Understanding and Generation",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2410.13848",
+       "id": "2410.13848"
+      },
+      {
+       "date": "2024-11-12",
+       "dateLabel": "Nov 12, 2024",
+       "short": "JanusFlow",
+       "full": "JanusFlow: Harmonizing Autoregression and Rectified Flow for Unified Multimodal Understanding and Generation",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2411.07975",
+       "id": "2411.07975"
+      },
+      {
+       "date": "2024-12-13",
+       "dateLabel": "Dec 13, 2024",
+       "short": "DeepSeek-VL2",
+       "full": "DeepSeek-VL2: Mixture-of-Experts Vision-Language Models for Advanced Multimodal Understanding",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2412.10302",
+       "id": "2412.10302"
+      },
+      {
+       "date": "2024-12-27",
+       "dateLabel": "Dec 27, 2024",
+       "short": "DeepSeek-V3",
+       "full": "DeepSeek-V3 Technical Report",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2412.19437",
+       "id": "2412.19437"
+      },
+      {
+       "date": "2025-01-22",
+       "dateLabel": "Jan 22, 2025",
+       "short": "DeepSeek-R1",
+       "full": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2501.12948",
+       "id": "2501.12948"
+      },
+      {
+       "date": "2025-01-29",
+       "dateLabel": "Jan 29, 2025",
+       "short": "Janus-Pro",
+       "full": "Janus-Pro: Unified Multimodal Understanding and Generation with Data and Model Scaling",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2501.17811",
+       "id": "2501.17811"
+      },
+      {
+       "date": "2025-02-11",
+       "dateLabel": "Feb 11, 2025",
+       "short": "CodeI/O",
+       "full": "CodeI/O: Condensing Reasoning Patterns via Code Input-Output Prediction",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2502.07316",
+       "id": "2502.07316"
+      },
+      {
+       "date": "2025-02-16",
+       "dateLabel": "Feb 16, 2025",
+       "short": "Native Sparse Attention",
+       "full": "Native Sparse Attention: Hardware-Aligned and Natively Trainable Sparse Attention",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2502.11089",
+       "id": "2502.11089"
+      },
+      {
+       "date": "2025-04-03",
+       "dateLabel": "Apr 3, 2025",
+       "short": "Inference-Time Scaling for Generalist RM",
+       "full": "Inference-Time Scaling for Generalist Reward Modeling",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2504.02495",
+       "id": "2504.02495"
+      },
+      {
+       "date": "2025-04-30",
+       "dateLabel": "Apr 30, 2025",
+       "short": "DeepSeek-Prover-V2",
+       "full": "DeepSeek-Prover-V2: Advancing Formal Mathematical Reasoning via Reinforcement Learning for Subgoal Decomposition",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2504.21801",
+       "id": "2504.21801"
+      },
+      {
+       "date": "2025-05-14",
+       "dateLabel": "May 14, 2025",
+       "short": "Insights into DeepSeek-V3",
+       "full": "Insights into DeepSeek-V3: Scaling Challenges and Reflections on Hardware for AI Architectures",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2505.09343",
+       "id": "2505.09343"
+      },
+      {
+       "date": "2025-10-21",
+       "dateLabel": "Oct 21, 2025",
+       "short": "DeepSeek-OCR",
+       "full": "DeepSeek-OCR: Contexts Optical Compression",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2510.18234",
+       "id": "2510.18234"
+      },
+      {
+       "date": "2025-11-27",
+       "dateLabel": "Nov 27, 2025",
+       "short": "DeepSeekMath-V2",
+       "full": "DeepSeekMath-V2: Towards Self-Verifiable Mathematical Reasoning",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2511.22570",
+       "id": "2511.22570"
+      },
+      {
+       "date": "2025-12-02",
+       "dateLabel": "Dec 2, 2025",
+       "short": "DeepSeek-V3.2",
+       "full": "DeepSeek-V3.2: Pushing the Frontier of Open Large Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2512.02556",
+       "id": "2512.02556"
+      },
+      {
+       "date": "2025-12-31",
+       "dateLabel": "Dec 31, 2025",
+       "short": "mHC",
+       "full": "mHC: Manifold-Constrained Hyper-Connections",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2512.24880",
+       "id": "2512.24880"
+      },
+      {
+       "date": "2026-01-12",
+       "dateLabel": "Jan 12, 2026",
+       "short": "Conditional Memory (Engram)",
+       "full": "Conditional Memory via Scalable Lookup: A New Axis of Sparsity for Large Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2601.07372",
+       "id": "2601.07372"
+      },
+      {
+       "date": "2026-01-28",
+       "dateLabel": "Jan 28, 2026",
+       "short": "DeepSeek-OCR 2",
+       "full": "DeepSeek-OCR 2: Visual Causal Flow",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2601.20552",
+       "id": "2601.20552"
+      },
+      {
+       "date": "2026-02-25",
+       "dateLabel": "Feb 25, 2026",
+       "short": "DualPath",
+       "full": "DualPath: Breaking the Storage Bandwidth Bottleneck in Agentic LLM Inference",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2602.21548",
+       "id": "2602.21548"
+      },
+      {
+       "date": "2026-04-26",
+       "dateLabel": "Apr 26, 2026",
+       "short": "DeepSeek-V4",
+       "full": "DeepSeek-V4: Towards Highly Efficient Million-Token Context Intelligence",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2606.19348",
+       "id": "2606.19348"
+      },
+      {
+       "date": "2026-08-26",
+       "dateLabel": "Aug 26, 2026",
+       "short": "Spatiotemporal Composability",
+       "full": "A Programming Paradigm for Spatiotemporal Composability",
+       "star": false,
+       "badges": [
+        "Unconfirmed authorship"
+       ],
+       "url": "https://arxiv.org/abs/2608.25512",
+       "id": "2608.25512"
+      },
+      {
+       "date": "2026-09-17",
+       "dateLabel": "Sep 17, 2026",
+       "short": "DeepSeek-V4.1-Flash",
+       "full": "DeepSeek-V4.1-Flash: Pushing the Limits of KV Cache Compression",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2609.19969",
+       "id": "2609.19969"
+      },
+      {
+       "date": "2026-09-19",
+       "dateLabel": "Sep 19, 2026",
+       "short": "DSec",
+       "full": "DeepSeek Elastic Compute (DSec): A Sandbox Infrastructure for Effective Agentic Training at Scale",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2609.22978",
+       "id": "2609.22978"
+      }
+     ]
+    },
+    {
+     "name": "Qwen",
+     "org": "Alibaba",
+     "why": "The most complete open model family: text, code, math, vision, audio.",
+     "papers": [
+      {
+       "date": "2023-08-24",
+       "dateLabel": "Aug 24, 2023",
+       "short": "Qwen-VL",
+       "full": "Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2308.12966",
+       "id": "2308.12966"
+      },
+      {
+       "date": "2023-09-28",
+       "dateLabel": "Sep 28, 2023",
+       "short": "Qwen",
+       "full": "Qwen Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2309.16609",
+       "id": "2309.16609"
+      },
+      {
+       "date": "2024-07-15",
+       "dateLabel": "Jul 15, 2024",
+       "short": "Qwen2",
+       "full": "Qwen2 Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2407.10671",
+       "id": "2407.10671"
+      },
+      {
+       "date": "2024-09-18",
+       "dateLabel": "Sep 18, 2024",
+       "short": "Qwen2.5-Math",
+       "full": "Qwen2.5-Math Technical Report: Toward Mathematical Expert Model via Self-Improvement",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2409.12122",
+       "id": "2409.12122"
+      },
+      {
+       "date": "2024-09-18",
+       "dateLabel": "Sep 18, 2024",
+       "short": "Qwen2.5-Coder",
+       "full": "Qwen2.5-Coder Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2409.12186",
+       "id": "2409.12186"
+      },
+      {
+       "date": "2024-09-18",
+       "dateLabel": "Sep 18, 2024",
+       "short": "Qwen2-VL",
+       "full": "Qwen2-VL: Enhancing Vision-Language Model's Perception of the World at Any Resolution",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2409.12191",
+       "id": "2409.12191"
+      },
+      {
+       "date": "2024-12-19",
+       "dateLabel": "Dec 19, 2024",
+       "short": "Qwen2.5",
+       "full": "Qwen2.5 Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2412.15115",
+       "id": "2412.15115"
+      },
+      {
+       "date": "2025-01-26",
+       "dateLabel": "Jan 26, 2025",
+       "short": "Qwen2.5-1M",
+       "full": "Qwen2.5-1M Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2501.15383",
+       "id": "2501.15383"
+      },
+      {
+       "date": "2025-02-19",
+       "dateLabel": "Feb 19, 2025",
+       "short": "Qwen2.5-VL",
+       "full": "Qwen2.5-VL Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2502.13923",
+       "id": "2502.13923"
+      },
+      {
+       "date": "2025-03-26",
+       "dateLabel": "Mar 26, 2025",
+       "short": "Qwen2.5-Omni",
+       "full": "Qwen2.5-Omni Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2503.20215",
+       "id": "2503.20215"
+      },
+      {
+       "date": "2025-05-14",
+       "dateLabel": "May 14, 2025",
+       "short": "Qwen3",
+       "full": "Qwen3 Technical Report",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2505.09388",
+       "id": "2505.09388"
+      },
+      {
+       "date": "2025-07-24",
+       "dateLabel": "Jul 24, 2025",
+       "short": "GSPO",
+       "full": "Group Sequence Policy Optimization",
+       "star": false,
+       "badges": [
+        "RL algorithm"
+       ],
+       "url": "https://arxiv.org/abs/2507.18071",
+       "id": "2507.18071"
+      },
+      {
+       "date": "2025-09-22",
+       "dateLabel": "Sep 22, 2025",
+       "short": "Qwen3-Omni",
+       "full": "Qwen3-Omni Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2509.17765",
+       "id": "2509.17765"
+      },
+      {
+       "date": "2025-11-26",
+       "dateLabel": "Nov 26, 2025",
+       "short": "Qwen3-VL",
+       "full": "Qwen3-VL Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2511.21631",
+       "id": "2511.21631"
+      },
+      {
+       "date": "2026-04-17",
+       "dateLabel": "Apr 17, 2026",
+       "short": "Qwen3.5-Omni",
+       "full": "Qwen3.5-Omni Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2604.15804",
+       "id": "2604.15804"
+      }
+     ]
+    },
+    {
+     "name": "Kimi",
+     "org": "Moonshot AI",
+     "why": "Long-context RL, the Muon optimizer at scale, and serving infrastructure.",
+     "papers": [
+      {
+       "date": "2024-06-24",
+       "dateLabel": "Jun 24, 2024",
+       "short": "Mooncake (serving)",
+       "full": "Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2407.00079",
+       "id": "2407.00079"
+      },
+      {
+       "date": "2025-01-22",
+       "dateLabel": "Jan 22, 2025",
+       "short": "Kimi k1.5",
+       "full": "Kimi k1.5: Scaling Reinforcement Learning with LLMs",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2501.12599",
+       "id": "2501.12599"
+      },
+      {
+       "date": "2025-02-18",
+       "dateLabel": "Feb 18, 2025",
+       "short": "MoBA",
+       "full": "MoBA: Mixture of Block Attention for Long-Context LLMs",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2502.13189",
+       "id": "2502.13189"
+      },
+      {
+       "date": "2025-02-24",
+       "dateLabel": "Feb 24, 2025",
+       "short": "Muon is Scalable (Moonlight)",
+       "full": "Muon is Scalable for LLM Training",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2502.16982",
+       "id": "2502.16982"
+      },
+      {
+       "date": "2025-04-10",
+       "dateLabel": "Apr 10, 2025",
+       "short": "Kimi-VL",
+       "full": "Kimi-VL Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2504.07491",
+       "id": "2504.07491"
+      },
+      {
+       "date": "2025-07-28",
+       "dateLabel": "Jul 28, 2025",
+       "short": "Kimi K2",
+       "full": "Kimi K2: Open Agentic Intelligence",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2507.20534",
+       "id": "2507.20534"
+      },
+      {
+       "date": "2025-10-30",
+       "dateLabel": "Oct 30, 2025",
+       "short": "Kimi Linear",
+       "full": "Kimi Linear: An Expressive, Efficient Attention Architecture",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2510.26692",
+       "id": "2510.26692"
+      },
+      {
+       "date": "2026-02-02",
+       "dateLabel": "Feb 2, 2026",
+       "short": "Kimi K2.5",
+       "full": "Kimi K2.5: Visual Agentic Intelligence",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2602.02276",
+       "id": "2602.02276"
+      },
+      {
+       "date": "2026-07-27",
+       "dateLabel": "Jul 27, 2026",
+       "short": "Kimi K3",
+       "full": "Kimi K3: Open Frontier Intelligence",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2607.24653",
+       "id": "2607.24653"
+      }
+     ]
+    },
+    {
+     "name": "MiniMax",
+     "org": "MiniMax",
+     "why": "Linear (lightning) attention at frontier scale and the CISPO RL objective.",
+     "papers": [
+      {
+       "date": "2025-01-14",
+       "dateLabel": "Jan 14, 2025",
+       "short": "MiniMax-01",
+       "full": "MiniMax-01: Scaling Foundation Models with Lightning Attention",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2501.08313",
+       "id": "2501.08313"
+      },
+      {
+       "date": "2025-06-16",
+       "dateLabel": "Jun 16, 2025",
+       "short": "MiniMax-M1",
+       "full": "MiniMax-M1: Scaling Test-Time Compute Efficiently with Lightning Attention",
+       "star": true,
+       "badges": [
+        "Introduces CISPO"
+       ],
+       "url": "https://arxiv.org/abs/2506.13585",
+       "id": "2506.13585"
+      },
+      {
+       "date": "2026-05-26",
+       "dateLabel": "May 26, 2026",
+       "short": "MiniMax-M2 series",
+       "full": "The MiniMax-M2 Series: Mini Activations Unleashing Max Real-World Intelligence",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2605.26494",
+       "id": "2605.26494"
+      }
+     ]
+    },
+    {
+     "name": "GLM",
+     "org": "Zhipu AI / Z.ai",
+     "why": "Bilingual models, agents and the slime RL framework.",
+     "papers": [
+      {
+       "date": "2021-03-18",
+       "dateLabel": "Mar 18, 2021",
+       "short": "GLM",
+       "full": "GLM: General Language Model Pretraining with Autoregressive Blank Infilling",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2103.10360",
+       "id": "2103.10360"
+      },
+      {
+       "date": "2022-10-05",
+       "dateLabel": "Oct 5, 2022",
+       "short": "GLM-130B",
+       "full": "GLM-130B: An Open Bilingual Pre-trained Model",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2210.02414",
+       "id": "2210.02414"
+      },
+      {
+       "date": "2023-08-07",
+       "dateLabel": "Aug 7, 2023",
+       "short": "AgentBench",
+       "full": "AgentBench: Evaluating LLMs as Agents",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2308.03688",
+       "id": "2308.03688"
+      },
+      {
+       "date": "2023-11-06",
+       "dateLabel": "Nov 6, 2023",
+       "short": "CogVLM",
+       "full": "CogVLM: Visual Expert for Pretrained Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2311.03079",
+       "id": "2311.03079"
+      },
+      {
+       "date": "2024-06-18",
+       "dateLabel": "Jun 18, 2024",
+       "short": "ChatGLM / GLM-4",
+       "full": "ChatGLM: A Family of Large Language Models from GLM-130B to GLM-4 All Tools",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2406.12793",
+       "id": "2406.12793"
+      },
+      {
+       "date": "2025-07-01",
+       "dateLabel": "Jul 1, 2025",
+       "short": "GLM-4.1V-Thinking",
+       "full": "GLM-4.5V and GLM-4.1V-Thinking: Towards Versatile Multimodal Reasoning with Scalable Reinforcement Learning",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2507.01006",
+       "id": "2507.01006"
+      },
+      {
+       "date": "2025-08-08",
+       "dateLabel": "Aug 8, 2025",
+       "short": "GLM-4.5",
+       "full": "GLM-4.5: Agentic, Reasoning, and Coding (ARC) Foundation Models",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2508.06471",
+       "id": "2508.06471"
+      },
+      {
+       "date": "2026-02-17",
+       "dateLabel": "Feb 17, 2026",
+       "short": "GLM-5",
+       "full": "GLM-5: from Vibe Coding to Agentic Engineering",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2602.15763",
+       "id": "2602.15763"
+      }
+     ]
+    },
+    {
+     "name": "ByteDance Seed",
+     "org": "ByteDance",
+     "why": "Practical RL algorithms with open code (verl).",
+     "papers": [
+      {
+       "date": "2024-09-28",
+       "dateLabel": "Sep 28, 2024",
+       "short": "HybridFlow (verl)",
+       "full": "HybridFlow: A Flexible and Efficient RLHF Framework",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2409.19256",
+       "id": "2409.19256"
+      },
+      {
+       "date": "2025-01-21",
+       "dateLabel": "Jan 21, 2025",
+       "short": "UI-TARS",
+       "full": "UI-TARS: Pioneering Automated GUI Interaction with Native Agents",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2501.12326",
+       "id": "2501.12326"
+      },
+      {
+       "date": "2025-03-18",
+       "dateLabel": "Mar 18, 2025",
+       "short": "DAPO",
+       "full": "DAPO: An Open-Source LLM Reinforcement Learning System at Scale",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2503.14476",
+       "id": "2503.14476"
+      },
+      {
+       "date": "2025-04-07",
+       "dateLabel": "Apr 7, 2025",
+       "short": "VAPO",
+       "full": "VAPO: Efficient and Reliable Reinforcement Learning for Advanced Reasoning Tasks",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2504.05118",
+       "id": "2504.05118"
+      },
+      {
+       "date": "2025-04-10",
+       "dateLabel": "Apr 10, 2025",
+       "short": "Seed1.5-Thinking",
+       "full": "Seed1.5-Thinking: Advancing Superb Reasoning Models with Reinforcement Learning",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2504.13914",
+       "id": "2504.13914"
+      },
+      {
+       "date": "2025-05-11",
+       "dateLabel": "May 11, 2025",
+       "short": "Seed1.5-VL",
+       "full": "Seed1.5-VL Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2505.07062",
+       "id": "2505.07062"
+      },
+      {
+       "date": "2025-06-04",
+       "dateLabel": "Jun 4, 2025",
+       "short": "Seed-Coder",
+       "full": "Seed-Coder: Let the Code Model Curate Data for Itself",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2506.03524",
+       "id": "2506.03524"
+      },
+      {
+       "date": "2026-06-30",
+       "dateLabel": "Jun 30, 2026",
+       "short": "Seed2.0 model card",
+       "full": "Seed2.0 Model Card: Towards Intelligence Frontier for Real-World Complexity",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2607.00248",
+       "id": "2607.00248"
+      }
+     ]
+    },
+    {
+     "name": "Meta · Llama",
+     "org": "Meta",
+     "why": "The reference dense-model recipe, documented end to end in Llama 3.",
+     "papers": [
+      {
+       "date": "2023-02-27",
+       "dateLabel": "Feb 27, 2023",
+       "short": "LLaMA",
+       "full": "LLaMA: Open and Efficient Foundation Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2302.13971",
+       "id": "2302.13971"
+      },
+      {
+       "date": "2023-07-18",
+       "dateLabel": "Jul 18, 2023",
+       "short": "Llama 2",
+       "full": "Llama 2: Open Foundation and Fine-Tuned Chat Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2307.09288",
+       "id": "2307.09288"
+      },
+      {
+       "date": "2023-08-24",
+       "dateLabel": "Aug 24, 2023",
+       "short": "Code Llama",
+       "full": "Code Llama: Open Foundation Models for Code",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2308.12950",
+       "id": "2308.12950"
+      },
+      {
+       "date": "2023-12-07",
+       "dateLabel": "Dec 7, 2023",
+       "short": "Llama Guard",
+       "full": "Llama Guard: LLM-based Input-Output Safeguard for Human-AI Conversations",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2312.06674",
+       "id": "2312.06674"
+      },
+      {
+       "date": "2024-07-31",
+       "dateLabel": "Jul 31, 2024",
+       "short": "The Llama 3 Herd of Models",
+       "full": "",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2407.21783",
+       "id": "2407.21783"
+      },
+      {
+       "date": null,
+       "dateLabel": null,
+       "short": "Llama 4 (blog)",
+       "full": "",
+       "star": false,
+       "badges": [
+        "Blog"
+       ],
+       "url": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/",
+       "id": "web"
+      }
+     ]
+    },
+    {
+     "name": "Google · Gemma",
+     "org": "Google DeepMind",
+     "why": "Small open models and distillation.",
+     "papers": [
+      {
+       "date": "2024-03-13",
+       "dateLabel": "Mar 13, 2024",
+       "short": "Gemma",
+       "full": "Gemma: Open Models Based on Gemini Research and Technology",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2403.08295",
+       "id": "2403.08295"
+      },
+      {
+       "date": "2024-06-17",
+       "dateLabel": "Jun 17, 2024",
+       "short": "CodeGemma",
+       "full": "CodeGemma: Open Code Models Based on Gemma",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2406.11409",
+       "id": "2406.11409"
+      },
+      {
+       "date": "2024-07-10",
+       "dateLabel": "Jul 10, 2024",
+       "short": "PaliGemma",
+       "full": "PaliGemma: A versatile 3B VLM for transfer",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2407.07726",
+       "id": "2407.07726"
+      },
+      {
+       "date": "2024-07-31",
+       "dateLabel": "Jul 31, 2024",
+       "short": "Gemma 2",
+       "full": "Gemma 2: Improving Open Language Models at a Practical Size",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2408.00118",
+       "id": "2408.00118"
+      },
+      {
+       "date": "2025-03-25",
+       "dateLabel": "Mar 25, 2025",
+       "short": "Gemma 3",
+       "full": "Gemma 3 Technical Report",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2503.19786",
+       "id": "2503.19786"
+      },
+      {
+       "date": "2026-07-02",
+       "dateLabel": "Jul 2, 2026",
+       "short": "Gemma 4",
+       "full": "Gemma 4 Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2607.02770",
+       "id": "2607.02770"
+      }
+     ]
+    },
+    {
+     "name": "Mistral",
+     "org": "Mistral AI",
+     "why": "Early sparse MoE, and RL for reasoning in Magistral.",
+     "papers": [
+      {
+       "date": "2023-10-10",
+       "dateLabel": "Oct 10, 2023",
+       "short": "Mistral 7B",
+       "full": "",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2310.06825",
+       "id": "2310.06825"
+      },
+      {
+       "date": "2024-01-08",
+       "dateLabel": "Jan 8, 2024",
+       "short": "Mixtral of Experts",
+       "full": "",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2401.04088",
+       "id": "2401.04088"
+      },
+      {
+       "date": "2024-10-09",
+       "dateLabel": "Oct 9, 2024",
+       "short": "Pixtral 12B",
+       "full": "",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2410.07073",
+       "id": "2410.07073"
+      },
+      {
+       "date": "2025-06-12",
+       "dateLabel": "Jun 12, 2025",
+       "short": "Magistral",
+       "full": "",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2506.10910",
+       "id": "2506.10910"
+      },
+      {
+       "date": "2025-07-17",
+       "dateLabel": "Jul 17, 2025",
+       "short": "Voxtral",
+       "full": "",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2507.13264",
+       "id": "2507.13264"
+      }
+     ]
+    },
+    {
+     "name": "Microsoft · Phi",
+     "org": "Microsoft",
+     "why": "Data quality over scale.",
+     "papers": [
+      {
+       "date": "2023-06-20",
+       "dateLabel": "Jun 20, 2023",
+       "short": "Textbooks Are All You Need (phi-1)",
+       "full": "Textbooks Are All You Need",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2306.11644",
+       "id": "2306.11644"
+      },
+      {
+       "date": "2023-09-11",
+       "dateLabel": "Sep 11, 2023",
+       "short": "Textbooks Are All You Need II (phi-1.5)",
+       "full": "Textbooks Are All You Need II: phi-1.5 technical report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2309.05463",
+       "id": "2309.05463"
+      },
+      {
+       "date": "2024-04-22",
+       "dateLabel": "Apr 22, 2024",
+       "short": "Phi-3",
+       "full": "Phi-3 Technical Report: A Highly Capable Language Model Locally on Your Phone",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2404.14219",
+       "id": "2404.14219"
+      },
+      {
+       "date": "2024-12-12",
+       "dateLabel": "Dec 12, 2024",
+       "short": "Phi-4",
+       "full": "Phi-4 Technical Report",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2412.08905",
+       "id": "2412.08905"
+      },
+      {
+       "date": "2025-03-03",
+       "dateLabel": "Mar 3, 2025",
+       "short": "Phi-4-Mini",
+       "full": "Phi-4-Mini Technical Report: Compact yet Powerful Multimodal Language Models via Mixture-of-LoRAs",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2503.01743",
+       "id": "2503.01743"
+      },
+      {
+       "date": "2025-04-30",
+       "dateLabel": "Apr 30, 2025",
+       "short": "Phi-4-reasoning",
+       "full": "Phi-4-reasoning Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2504.21318",
+       "id": "2504.21318"
+      }
+     ]
+    },
+    {
+     "name": "NVIDIA · Nemotron",
+     "org": "NVIDIA",
+     "why": "Synthetic data, pruning and distillation, hybrid Mamba models.",
+     "papers": [
+      {
+       "date": "2024-06-17",
+       "dateLabel": "Jun 17, 2024",
+       "short": "Nemotron-4 340B",
+       "full": "Nemotron-4 340B Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2406.11704",
+       "id": "2406.11704"
+      },
+      {
+       "date": "2024-07-19",
+       "dateLabel": "Jul 19, 2024",
+       "short": "Minitron (pruning + distillation)",
+       "full": "Compact Language Models via Pruning and Knowledge Distillation",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2407.14679",
+       "id": "2407.14679"
+      },
+      {
+       "date": "2024-12-03",
+       "dateLabel": "Dec 3, 2024",
+       "short": "Nemotron-CC",
+       "full": "Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2412.02595",
+       "id": "2412.02595"
+      },
+      {
+       "date": "2025-04-04",
+       "dateLabel": "Apr 4, 2025",
+       "short": "Nemotron-H",
+       "full": "Nemotron-H: A Family of Accurate and Efficient Hybrid Mamba-Transformer Models",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2504.03624",
+       "id": "2504.03624"
+      },
+      {
+       "date": "2025-05-02",
+       "dateLabel": "May 2, 2025",
+       "short": "Llama-Nemotron",
+       "full": "Llama-Nemotron: Efficient Reasoning Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2505.00949",
+       "id": "2505.00949"
+      },
+      {
+       "date": "2025-08-20",
+       "dateLabel": "Aug 20, 2025",
+       "short": "Nemotron Nano 2",
+       "full": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2508.14444",
+       "id": "2508.14444"
+      },
+      {
+       "date": "2025-12-24",
+       "dateLabel": "Dec 24, 2025",
+       "short": "Nemotron 3",
+       "full": "NVIDIA Nemotron 3: Efficient and Open Intelligence",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2512.20856",
+       "id": "2512.20856"
+      },
+      {
+       "date": "2025-12-23",
+       "dateLabel": "Dec 23, 2025",
+       "short": "Nemotron 3 Nano",
+       "full": "Nemotron 3 Nano: Open, Efficient Mixture-of-Experts Hybrid Mamba-Transformer Model for Agentic Reasoning",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2512.20848",
+       "id": "2512.20848"
+      },
+      {
+       "date": "2026-04-14",
+       "dateLabel": "Apr 14, 2026",
+       "short": "Nemotron 3 Super",
+       "full": "Nemotron 3 Super: Open, Efficient Mixture-of-Experts Hybrid Mamba-Transformer Model for Agentic Reasoning",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2604.12374",
+       "id": "2604.12374"
+      },
+      {
+       "date": "2026-04-27",
+       "dateLabel": "Apr 27, 2026",
+       "short": "Nemotron 3 Nano Omni",
+       "full": "Nemotron 3 Nano Omni: Efficient and Open Multimodal Intelligence",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2604.24954",
+       "id": "2604.24954"
+      },
+      {
+       "date": "2026-06-12",
+       "dateLabel": "Jun 12, 2026",
+       "short": "Nemotron 3 Ultra",
+       "full": "Nemotron 3 Ultra: Open, Efficient Mixture-of-Experts Hybrid Mamba-Transformer Model for Agentic Reasoning",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2606.15007",
+       "id": "2606.15007"
+      },
+      {
+       "date": "2026-09-09",
+       "dateLabel": "Sep 9, 2026",
+       "short": "Open Recipe for IMO Gold",
+       "full": "An Open Recipe for IMO Gold: Training Nemotron for Olympiad Mathematics",
+       "star": false,
+       "badges": [
+        "RL for math"
+       ],
+       "url": "https://arxiv.org/abs/2609.10712",
+       "id": "2609.10712"
+      },
+      {
+       "date": "2026-10-28",
+       "dateLabel": "Oct 28, 2026",
+       "short": "Nemotron 3.5 Super & Lightning",
+       "full": "Nemotron 3.5 Super and Lightning: Open, Efficient Mixture-of-Experts Hybrid Mamba-Transformer Models for Agentic AI",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2610.38095",
+       "id": "2610.38095"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t3",
+   "name": "RL, RLVR & reasoning",
+   "blurb": "Post-training papers to read after DeepSeekMath (GRPO) and DeepSeek-R1.",
+   "series": [
+    {
+     "name": "Foundations of RLHF",
+     "org": "Various",
+     "why": "Where the policy-gradient and preference-learning ideas come from.",
+     "papers": [
+      {
+       "date": "2015-06-08",
+       "dateLabel": "Jun 8, 2015",
+       "short": "GAE",
+       "full": "High-Dimensional Continuous Control Using Generalized Advantage Estimation",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/1506.02438",
+       "id": "1506.02438"
+      },
+      {
+       "date": "2017-06-12",
+       "dateLabel": "Jun 12, 2017",
+       "short": "Deep RL from Human Preferences",
+       "full": "Deep reinforcement learning from human preferences",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/1706.03741",
+       "id": "1706.03741"
+      },
+      {
+       "date": "2017-07-20",
+       "dateLabel": "Jul 20, 2017",
+       "short": "PPO",
+       "full": "Proximal Policy Optimization Algorithms",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/1707.06347",
+       "id": "1707.06347"
+      },
+      {
+       "date": "2020-09-02",
+       "dateLabel": "Sep 2, 2020",
+       "short": "Learning to Summarize from Human Feedback",
+       "full": "",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2009.01325",
+       "id": "2009.01325"
+      },
+      {
+       "date": "2021-10-27",
+       "dateLabel": "Oct 27, 2021",
+       "short": "Training Verifiers (GSM8K)",
+       "full": "Training Verifiers to Solve Math Word Problems",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2110.14168",
+       "id": "2110.14168"
+      },
+      {
+       "date": "2022-03-04",
+       "dateLabel": "Mar 4, 2022",
+       "short": "InstructGPT",
+       "full": "Training language models to follow instructions with human feedback",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2203.02155",
+       "id": "2203.02155"
+      },
+      {
+       "date": "2022-03-28",
+       "dateLabel": "Mar 28, 2022",
+       "short": "STaR",
+       "full": "STaR: Bootstrapping Reasoning With Reasoning",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2203.14465",
+       "id": "2203.14465"
+      },
+      {
+       "date": "2022-12-15",
+       "dateLabel": "Dec 15, 2022",
+       "short": "Constitutional AI",
+       "full": "Constitutional AI: Harmlessness from AI Feedback",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2212.08073",
+       "id": "2212.08073"
+      },
+      {
+       "date": "2023-05-29",
+       "dateLabel": "May 29, 2023",
+       "short": "DPO",
+       "full": "Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2305.18290",
+       "id": "2305.18290"
+      },
+      {
+       "date": "2023-05-31",
+       "dateLabel": "May 31, 2023",
+       "short": "Let's Verify Step by Step",
+       "full": "",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2305.20050",
+       "id": "2305.20050"
+      },
+      {
+       "date": "2024-02-22",
+       "dateLabel": "Feb 22, 2024",
+       "short": "Back to Basics (RLOO)",
+       "full": "Back to Basics: Revisiting REINFORCE Style Optimization for Learning from Human Feedback in LLMs",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2402.14740",
+       "id": "2402.14740"
+      },
+      {
+       "date": "2024-05-20",
+       "dateLabel": "May 20, 2024",
+       "short": "OpenRLHF",
+       "full": "OpenRLHF: An Easy-to-use, Scalable and High-performance RLHF Framework",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2405.11143",
+       "id": "2405.11143"
+      },
+      {
+       "date": "2025-01-04",
+       "dateLabel": "Jan 4, 2025",
+       "short": "REINFORCE++",
+       "full": "REINFORCE++: Stabilizing Critic-Free Policy Optimization with Global Advantage Normalization",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2501.03262",
+       "id": "2501.03262"
+      }
+     ]
+    },
+    {
+     "name": "GRPO fixes & R1-Zero reproductions",
+     "org": "Various",
+     "why": "How the community made RLVR stable and what it learned along the way.",
+     "papers": [
+      {
+       "date": "2025-01-31",
+       "dateLabel": "Jan 31, 2025",
+       "short": "s1: Simple Test-Time Scaling",
+       "full": "",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2501.19393",
+       "id": "2501.19393"
+      },
+      {
+       "date": "2025-02-03",
+       "dateLabel": "Feb 3, 2025",
+       "short": "PRIME (implicit process rewards)",
+       "full": "Process Reinforcement through Implicit Rewards",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2502.01456",
+       "id": "2502.01456"
+      },
+      {
+       "date": "2025-02-05",
+       "dateLabel": "Feb 5, 2025",
+       "short": "LIMO",
+       "full": "LIMO: Less is More for Reasoning",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2502.03387",
+       "id": "2502.03387"
+      },
+      {
+       "date": "2025-03-24",
+       "dateLabel": "Mar 24, 2025",
+       "short": "SimpleRL-Zoo",
+       "full": "SimpleRL-Zoo: Investigating and Taming Zero Reinforcement Learning for Open Base Models in the Wild",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2503.18892",
+       "id": "2503.18892"
+      },
+      {
+       "date": "2025-03-26",
+       "dateLabel": "Mar 26, 2025",
+       "short": "Dr. GRPO",
+       "full": "Understanding R1-Zero-Like Training: A Critical Perspective",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2503.20783",
+       "id": "2503.20783"
+      },
+      {
+       "date": "2025-03-31",
+       "dateLabel": "Mar 31, 2025",
+       "short": "Open-Reasoner-Zero",
+       "full": "Open-Reasoner-Zero: An Open Source Approach to Scaling Up Reinforcement Learning on the Base Model",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2503.24290",
+       "id": "2503.24290"
+      },
+      {
+       "date": "2025-04-29",
+       "dateLabel": "Apr 29, 2025",
+       "short": "RL with One Training Example",
+       "full": "Reinforcement Learning for Reasoning in Large Language Models with One Training Example",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2504.20571",
+       "id": "2504.20571"
+      },
+      {
+       "date": "2025-05-28",
+       "dateLabel": "May 28, 2025",
+       "short": "Skywork-OR1",
+       "full": "Skywork Open Reasoner 1 Technical Report",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2505.22312",
+       "id": "2505.22312"
+      },
+      {
+       "date": "2025-05-28",
+       "dateLabel": "May 28, 2025",
+       "short": "Entropy Mechanism of RL for Reasoning",
+       "full": "The Entropy Mechanism of Reinforcement Learning for Reasoning Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2505.22617",
+       "id": "2505.22617"
+      },
+      {
+       "date": "2025-05-30",
+       "dateLabel": "May 30, 2025",
+       "short": "AReaL",
+       "full": "AReaL: A Large-Scale Asynchronous Reinforcement Learning System for Language Reasoning",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2505.24298",
+       "id": "2505.24298"
+      },
+      {
+       "date": "2025-05-30",
+       "dateLabel": "May 30, 2025",
+       "short": "ProRL",
+       "full": "ProRL: Prolonged Reinforcement Learning Expands Reasoning Boundaries in Large Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2505.24864",
+       "id": "2505.24864"
+      }
+     ]
+    },
+    {
+     "name": "Critical analyses of RLVR",
+     "org": "Various",
+     "why": "Read these to calibrate claims about what RL actually adds.",
+     "papers": [
+      {
+       "date": "2025-04-18",
+       "dateLabel": "Apr 18, 2025",
+       "short": "Does RL Really Incentivize Reasoning?",
+       "full": "Does Reinforcement Learning Really Incentivize Reasoning Capacity in LLMs Beyond the Base Model?",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2504.13837",
+       "id": "2504.13837"
+      },
+      {
+       "date": "2025-06-12",
+       "dateLabel": "Jun 12, 2025",
+       "short": "Spurious Rewards",
+       "full": "Spurious Rewards: Rethinking Training Signals in RLVR",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2506.10947",
+       "id": "2506.10947"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t4",
+   "name": "Foundations",
+   "blurb": "The papers every series above builds on.",
+   "series": [
+    {
+     "name": "Scaling laws",
+     "org": "OpenAI / DeepMind",
+     "why": "How loss scales with compute, data and parameters.",
+     "papers": [
+      {
+       "date": "2020-01-23",
+       "dateLabel": "Jan 23, 2020",
+       "short": "Scaling Laws for Neural LMs (Kaplan)",
+       "full": "Scaling Laws for Neural Language Models",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2001.08361",
+       "id": "2001.08361"
+      },
+      {
+       "date": "2020-05-28",
+       "dateLabel": "May 28, 2020",
+       "short": "GPT-3",
+       "full": "Language Models are Few-Shot Learners",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2005.14165",
+       "id": "2005.14165"
+      },
+      {
+       "date": "2022-03-29",
+       "dateLabel": "Mar 29, 2022",
+       "short": "Chinchilla",
+       "full": "Training Compute-Optimal Large Language Models",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2203.15556",
+       "id": "2203.15556"
+      }
+     ]
+    },
+    {
+     "name": "Architecture",
+     "org": "Various",
+     "why": "The building blocks inside every modern LLM.",
+     "papers": [
+      {
+       "date": "2017-01-23",
+       "dateLabel": "Jan 23, 2017",
+       "short": "Sparsely-Gated MoE",
+       "full": "Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/1701.06538",
+       "id": "1701.06538"
+      },
+      {
+       "date": "2017-06-12",
+       "dateLabel": "Jun 12, 2017",
+       "short": "Attention Is All You Need",
+       "full": "",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/1706.03762",
+       "id": "1706.03762"
+      },
+      {
+       "date": "2019-10-16",
+       "dateLabel": "Oct 16, 2019",
+       "short": "RMSNorm",
+       "full": "Root Mean Square Layer Normalization",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/1910.07467",
+       "id": "1910.07467"
+      },
+      {
+       "date": "2019-11-06",
+       "dateLabel": "Nov 6, 2019",
+       "short": "Multi-Query Attention",
+       "full": "Fast Transformer Decoding: One Write-Head is All You Need",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/1911.02150",
+       "id": "1911.02150"
+      },
+      {
+       "date": "2020-02-12",
+       "dateLabel": "Feb 12, 2020",
+       "short": "GLU Variants (SwiGLU)",
+       "full": "GLU Variants Improve Transformer",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2002.05202",
+       "id": "2002.05202"
+      },
+      {
+       "date": "2020-06-30",
+       "dateLabel": "Jun 30, 2020",
+       "short": "GShard",
+       "full": "GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2006.16668",
+       "id": "2006.16668"
+      },
+      {
+       "date": "2021-01-11",
+       "dateLabel": "Jan 11, 2021",
+       "short": "Switch Transformer",
+       "full": "Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2101.03961",
+       "id": "2101.03961"
+      },
+      {
+       "date": "2021-04-20",
+       "dateLabel": "Apr 20, 2021",
+       "short": "RoFormer (RoPE)",
+       "full": "RoFormer: Enhanced Transformer with Rotary Position Embedding",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2104.09864",
+       "id": "2104.09864"
+      },
+      {
+       "date": "2022-05-27",
+       "dateLabel": "May 27, 2022",
+       "short": "FlashAttention",
+       "full": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2205.14135",
+       "id": "2205.14135"
+      },
+      {
+       "date": "2023-05-22",
+       "dateLabel": "May 22, 2023",
+       "short": "GQA",
+       "full": "GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2305.13245",
+       "id": "2305.13245"
+      },
+      {
+       "date": "2023-07-17",
+       "dateLabel": "Jul 17, 2023",
+       "short": "FlashAttention-2",
+       "full": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2307.08691",
+       "id": "2307.08691"
+      },
+      {
+       "date": "2023-12-01",
+       "dateLabel": "Dec 1, 2023",
+       "short": "Mamba",
+       "full": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2312.00752",
+       "id": "2312.00752"
+      },
+      {
+       "date": "2024-05-31",
+       "dateLabel": "May 31, 2024",
+       "short": "Mamba-2",
+       "full": "Transformers are SSMs: Generalized Models and Efficient Algorithms Through Structured State Space Duality",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2405.21060",
+       "id": "2405.21060"
+      },
+      {
+       "date": "2024-07-11",
+       "dateLabel": "Jul 11, 2024",
+       "short": "FlashAttention-3",
+       "full": "FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2407.08608",
+       "id": "2407.08608"
+      }
+     ]
+    },
+    {
+     "name": "Training & inference systems",
+     "org": "Various",
+     "why": "Parallelism and serving.",
+     "papers": [
+      {
+       "date": "2018-11-16",
+       "dateLabel": "Nov 16, 2018",
+       "short": "GPipe",
+       "full": "GPipe: Efficient Training of Giant Neural Networks using Pipeline Parallelism",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/1811.06965",
+       "id": "1811.06965"
+      },
+      {
+       "date": "2019-09-17",
+       "dateLabel": "Sep 17, 2019",
+       "short": "Megatron-LM",
+       "full": "Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/1909.08053",
+       "id": "1909.08053"
+      },
+      {
+       "date": "2019-10-04",
+       "dateLabel": "Oct 4, 2019",
+       "short": "ZeRO",
+       "full": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/1910.02054",
+       "id": "1910.02054"
+      },
+      {
+       "date": "2021-04-09",
+       "dateLabel": "Apr 9, 2021",
+       "short": "Megatron-LM at scale (PTD-P)",
+       "full": "Efficient Large-Scale Language Model Training on GPU Clusters Using Megatron-LM",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2104.04473",
+       "id": "2104.04473"
+      },
+      {
+       "date": "2022-11-30",
+       "dateLabel": "Nov 30, 2022",
+       "short": "Speculative Decoding",
+       "full": "Fast Inference from Transformers via Speculative Decoding",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2211.17192",
+       "id": "2211.17192"
+      },
+      {
+       "date": "2023-09-12",
+       "dateLabel": "Sep 12, 2023",
+       "short": "vLLM / PagedAttention",
+       "full": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2309.06180",
+       "id": "2309.06180"
+      },
+      {
+       "date": "2023-10-03",
+       "dateLabel": "Oct 3, 2023",
+       "short": "Ring Attention",
+       "full": "Ring Attention with Blockwise Transformers for Near-Infinite Context",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2310.01889",
+       "id": "2310.01889"
+      },
+      {
+       "date": "2023-12-12",
+       "dateLabel": "Dec 12, 2023",
+       "short": "SGLang",
+       "full": "SGLang: Efficient Execution of Structured Language Model Programs",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2312.07104",
+       "id": "2312.07104"
+      }
+     ]
+    },
+    {
+     "name": "Interpretability & safety",
+     "org": "Anthropic",
+     "why": "How models work inside, and how to train them to be safe.",
+     "papers": [
+      {
+       "date": null,
+       "dateLabel": null,
+       "short": "A Mathematical Framework for Transformer Circuits",
+       "full": "",
+       "star": false,
+       "badges": [
+        "Web"
+       ],
+       "url": "https://transformer-circuits.pub/2021/framework/index.html",
+       "id": "web"
+      },
+      {
+       "date": "2022-09-21",
+       "dateLabel": "Sep 21, 2022",
+       "short": "Toy Models of Superposition",
+       "full": "",
+       "star": true,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2209.10652",
+       "id": "2209.10652"
+      },
+      {
+       "date": "2022-09-24",
+       "dateLabel": "Sep 24, 2022",
+       "short": "In-context Learning and Induction Heads",
+       "full": "",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2209.11895",
+       "id": "2209.11895"
+      },
+      {
+       "date": null,
+       "dateLabel": null,
+       "short": "Towards Monosemanticity",
+       "full": "",
+       "star": false,
+       "badges": [
+        "Web"
+       ],
+       "url": "https://transformer-circuits.pub/2023/monosemantic-features",
+       "id": "web"
+      },
+      {
+       "date": "2024-01-10",
+       "dateLabel": "Jan 10, 2024",
+       "short": "Sleeper Agents",
+       "full": "Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training",
+       "star": false,
+       "badges": [],
+       "url": "https://arxiv.org/abs/2401.05566",
+       "id": "2401.05566"
+      },
+      {
+       "date": null,
+       "dateLabel": null,
+       "short": "Scaling Monosemanticity",
+       "full": "",
+       "star": false,
+       "badges": [
+        "Web"
+       ],
+       "url": "https://transformer-circuits.pub/2024/scaling-monosemanticity/",
+       "id": "web"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "extras": [
+  {
+   "name": "Learning resources",
+   "items": [
+    {
+     "title": "Stanford CS336: Language Modeling from Scratch",
+     "url": "https://stanford-cs336.github.io/",
+     "kind": "Course"
+    },
+    {
+     "title": "RLHF Book (Nathan Lambert)",
+     "url": "https://rlhfbook.com/",
+     "kind": "Book"
+    },
+    {
+     "title": "Interconnects (Nathan Lambert)",
+     "url": "https://www.interconnects.ai/",
+     "kind": "Newsletter"
+    },
+    {
+     "title": "Lil'Log (Lilian Weng)",
+     "url": "https://lilianweng.github.io/",
+     "kind": "Blog"
+    },
+    {
+     "title": "Ahead of AI (Sebastian Raschka)",
+     "url": "https://magazine.sebastianraschka.com/",
+     "kind": "Newsletter"
+    },
+    {
+     "title": "Build a Large Language Model from Scratch",
+     "url": "https://github.com/rasbt/LLMs-from-scratch",
+     "kind": "Book + code"
+    },
+    {
+     "title": "Neural Networks: Zero to Hero (Karpathy)",
+     "url": "https://karpathy.ai/zero-to-hero.html",
+     "kind": "Videos"
+    },
+    {
+     "title": "nanoGPT",
+     "url": "https://github.com/karpathy/nanoGPT",
+     "kind": "Code"
+    },
+    {
+     "title": "nanochat",
+     "url": "https://github.com/karpathy/nanochat",
+     "kind": "Code"
+    },
+    {
+     "title": "Ultra-Scale Playbook",
+     "url": "https://huggingface.co/spaces/nanotron/ultrascale-playbook",
+     "kind": "Guide"
+    },
+    {
+     "title": "verl",
+     "url": "https://github.com/volcengine/verl",
+     "kind": "RL framework"
+    },
+    {
+     "title": "OpenRLHF",
+     "url": "https://github.com/OpenRLHF/OpenRLHF",
+     "kind": "RL framework"
+    },
+    {
+     "title": "TRL",
+     "url": "https://github.com/huggingface/trl",
+     "kind": "RL framework"
+    }
+   ]
+  },
+  {
+   "name": "Suggested order for RL work",
+   "items": [
+    {
+     "title": "DeepSeekMath (GRPO)",
+     "url": "https://arxiv.org/abs/2402.03300",
+     "kind": ""
+    },
+    {
+     "title": "DeepSeek-R1",
+     "url": "https://arxiv.org/abs/2501.12948",
+     "kind": ""
+    },
+    {
+     "title": "Tülu 3",
+     "url": "https://arxiv.org/abs/2411.15124",
+     "kind": ""
+    },
+    {
+     "title": "DAPO",
+     "url": "https://arxiv.org/abs/2503.14476",
+     "kind": ""
+    },
+    {
+     "title": "Dr. GRPO",
+     "url": "https://arxiv.org/abs/2503.20783",
+     "kind": ""
+    },
+    {
+     "title": "Kimi k1.5",
+     "url": "https://arxiv.org/abs/2501.12599",
+     "kind": ""
+    },
+    {
+     "title": "Qwen3",
+     "url": "https://arxiv.org/abs/2505.09388",
+     "kind": ""
+    },
+    {
+     "title": "MiniMax-M1",
+     "url": "https://arxiv.org/abs/2506.13585",
+     "kind": ""
+    },
+    {
+     "title": "RLVR critiques",
+     "url": "https://arxiv.org/abs/2504.13837",
+     "kind": ""
+    },
+    {
+     "title": "verl code",
+     "url": "https://github.com/volcengine/verl",
+     "kind": ""
+    }
+   ]
+  }
+ ],
+ "note": "Dates are first arXiv submission (v1). Some arXiv IDs carry a later month than their date, for example DeepSeek-V4 (2606.19348, listed Apr 26, 2026); that is how arXiv lists them. \"Co-authored\" means DeepSeek researchers co-wrote the paper with a university lab. Llama 4 and SmolLM3 have no arXiv report, so they link to the official blog."
+}
