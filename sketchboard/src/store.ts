@@ -78,6 +78,12 @@ export interface LinkPickState {
 interface UIState {
   showStats: boolean;
   showMinimap: boolean;
+  /** Badges for links inside the app show all the time, not just on hover. */
+  alwaysShowAppLinks: boolean;
+  /** The element under the pointer, so its link badge can show. */
+  hoverElementId: string | null;
+  /** Ctrl/⌘ is held: show every link badge. */
+  revealLinks: boolean;
   showLibrary: boolean;
   searchOpen: boolean;
   exportOpen: boolean;
@@ -150,6 +156,7 @@ interface Settings {
   snapEnabled: boolean;
   showMinimap: boolean;
   showStats: boolean;
+  alwaysShowAppLinks: boolean;
 }
 
 interface AppState extends UIState {
@@ -320,6 +327,9 @@ export const useStore = create<AppState>()((set, get) => ({
 
   showStats: false,
   showMinimap: false,
+  alwaysShowAppLinks: false,
+  hoverElementId: null,
+  revealLinks: false,
   showLibrary: false,
   searchOpen: false,
   exportOpen: false,
@@ -666,6 +676,7 @@ async function loadPreferences() {
     snapEnabled: settings.snapEnabled ?? true,
     showMinimap: settings.showMinimap ?? false,
     showStats: settings.showStats ?? false,
+    alwaysShowAppLinks: settings.alwaysShowAppLinks ?? false,
     library: library ?? [],
   });
 }
@@ -700,6 +711,7 @@ function settingsOf(s: AppState): Settings {
     snapEnabled: s.snapEnabled,
     showMinimap: s.showMinimap,
     showStats: s.showStats,
+    alwaysShowAppLinks: s.alwaysShowAppLinks,
   };
 }
 
@@ -707,7 +719,7 @@ const saveSettingsNow = () => settingsApi.patch({ ...settingsOf(useStore.getStat
 
 useStore.subscribe((s, prev) => {
   if (!s.hydrated || !prev.hydrated) return;
-  const keys = ["theme", "style", "recentColors", "gridEnabled", "snapEnabled", "showMinimap", "showStats"] as const;
+  const keys = ["theme", "style", "recentColors", "gridEnabled", "snapEnabled", "showMinimap", "showStats", "alwaysShowAppLinks"] as const;
   if (keys.some((k) => s[k] !== prev[k])) {
     clearTimeout(settingsTimer);
     settingsTimer = window.setTimeout(saveSettingsNow, 400);

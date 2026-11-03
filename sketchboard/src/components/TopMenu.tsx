@@ -21,6 +21,7 @@ import {
   Home,
   Link2,
   History,
+  CornerDownRight,
 } from "lucide-react";
 import { useStore } from "../store";
 import { exportJson, newDocument, openDocument, saveDocument } from "../utils/fileActions";
@@ -37,6 +38,7 @@ export default function TopMenu() {
   const snapEnabled = useStore((s) => s.snapEnabled);
   const showStats = useStore((s) => s.showStats);
   const showMinimap = useStore((s) => s.showMinimap);
+  const alwaysShowAppLinks = useStore((s) => s.alwaysShowAppLinks);
   const canvasBg = useStore((s) => s.canvasBg);
   const viewMode = useStore((s) => s.viewMode);
   const project = useStore((s) => s.project);
@@ -83,6 +85,7 @@ export default function TopMenu() {
             {item(<Magnet size={16} />, "Snap to objects", st().toggleSnap, { checked: snapEnabled, kbd: "Alt+S" })}
             {item(<BarChart3 size={16} />, "Stats", () => st().setUI({ showStats: !showStats }), { checked: showStats, kbd: "Alt+/" })}
             {item(<MapIcon size={16} />, "Minimap", () => st().setUI({ showMinimap: !showMinimap }), { checked: showMinimap, kbd: "Alt+M" })}
+            {item(<CornerDownRight size={16} />, "Always show in-app link badges", () => st().setUI({ alwaysShowAppLinks: !alwaysShowAppLinks }), { checked: alwaysShowAppLinks })}
             {item(theme === "dark" ? <Sun size={16} /> : <Moon size={16} />, theme === "dark" ? "Light mode" : "Dark mode", st().toggleTheme)}
             <div className="menu-section-label">Canvas background</div>
             <div className="swatch-row menu-swatches">

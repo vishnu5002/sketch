@@ -72,6 +72,41 @@ function FrameNameInput({ frame, viewport }: { frame: SketchElement; viewport: V
   );
 }
 
+/**
+ * Holding Ctrl/⌘ on its own shows every link badge. The short delay keeps
+ * shortcuts like Ctrl+Z from flashing them.
+ */
+function useRevealLinksKey() {
+  useEffect(() => {
+    let timer: number | undefined;
+    const set = (revealLinks: boolean) => {
+      clearTimeout(timer);
+      if (useStore.getState().revealLinks !== revealLinks) useStore.setState({ revealLinks });
+    };
+    const down = (e: KeyboardEvent) => {
+      if ((e.key === "Control" || e.key === "Meta") && !e.repeat) {
+        clearTimeout(timer);
+        timer = window.setTimeout(() => useStore.setState({ revealLinks: true }), 200);
+      } else if (e.key !== "Control" && e.key !== "Meta") set(false);
+    };
+    const up = (e: KeyboardEvent) => {
+      if (e.key === "Control" || e.key === "Meta") set(false);
+    };
+    const off = () => set(false);
+    window.addEventListener("keydown", down);
+    window.addEventListener("keyup", up);
+    window.addEventListener("blur", off);
+    window.addEventListener("wheel", off, { passive: true });
+    return () => {
+      off();
+      window.removeEventListener("keydown", down);
+      window.removeEventListener("keyup", up);
+      window.removeEventListener("blur", off);
+      window.removeEventListener("wheel", off);
+    };
+  }, []);
+}
+
 export default function Overlays() {
   const elements = useStore((s) => s.elements);
   const viewport = useStore((s) => s.viewport);
@@ -83,6 +118,20 @@ export default function Overlays() {
   const storedPages = useStore((s) => s.pages);
   const activePageId = useStore((s) => s.activePageId);
   const pages = useMemo(() => storedPages.map((p) => (p.id === activePageId ? { ...p, elements } : p)), [storedPages, activePageId, elements]);
+  // Links inside the app stay out of the way: their badge shows on hover, on
+  // selection, while Ctrl/⌘ is held, or always if the user asked for that.
+  const alwaysShowAppLinks = useStore((s) => s.alwaysShowAppLinks);
+  const revealLinks = useStore((s) => s.revealLinks);
+  const hoverElementId = useStore((s) => s.hoverElementId);
+  const selectedIds = useStore((s) => s.selectedIds);
+  const shownIds = useMemo(() => {
+    const ids = new Set(selectedIds);
+    if (hoverElementId) ids.add(hoverElementId);
+    const groups = new Set(elements.filter((e) => ids.has(e.id) && e.groupId).map((e) => e.groupId));
+    for (const e of elements) if (e.groupId && groups.has(e.groupId)) ids.add(e.id);
+    return ids;
+  }, [elements, selectedIds, hoverElementId]);
+  useRevealLinksKey();
 
   const editingFrame = editingFrameId ? elements.find((e) => e.id === editingFrameId) : undefined;
 
@@ -97,16 +146,23 @@ export default function Overlays() {
         .filter((e) => e.link && e.type !== "embed" && e.id !== editingTextId)
         .map((el) => {
           const b = getRotatedBounds(el);
-          const p = sceneToScreen({ x: b.x2, y: b.y1 }, viewport);
           const internal = isInternalLink(el.link);
+          // web-link badges sit above the top-right corner; in-app ones beside it,
+          // level with a short element (like a row) so it's clear which one they belong to
+          const p = sceneToScreen({ x: b.x2, y: b.y1 + (internal ? Math.min((b.y2 - b.y1) / 2, 14) : 0) }, viewport);
           const missing = internal && !otherDrawingOf(el.link) && !resolveInternalLink(el.link, pages);
+          // broken links stay visible while editing, since they need fixing
+          const quiet = internal && !(missing && !viewMode) && !alwaysShowAppLinks && !revealLinks && !shownIds.has(el.id);
           return (
             <button
               key={el.id}
-              className={`link-badge ${internal ? "internal" : ""} ${missing ? "missing" : ""}`}
-              style={{ left: p.x + 4, top: p.y - 22 }}
+              className={`link-badge ${internal ? "internal" : ""} ${missing ? "missing" : ""} ${quiet ? "quiet" : ""}`}
+              style={{ left: p.x + 4, top: internal ? p.y - 9 : p.y - 22 }}
               title={missing && !viewMode ? "The linked page or element no longer exists — click to choose a new target" : linkTitle(el.link)}
               onPointerDown={(e) => e.stopPropagation()}
+              // a quiet badge is still there, so pointing at it shows it
+              onPointerEnter={() => useStore.setState({ hoverElementId: el.id })}
+              onPointerLeave={() => useStore.setState({ hoverElementId: null })}
               onClick={() => (missing && !viewMode ? useStore.getState().setUI({ linkEditor: { elementId: el.id, mode: "link" } }) : openLink(el.link))}
             >
               {internal ? <CornerDownRight size={12} /> : <ExternalLink size={12} />}

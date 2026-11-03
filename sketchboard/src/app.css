@@ -3034,8 +3034,20 @@ button.primary,
 
 /* ---------- links into the drawing ---------- */
 
+.link-badge {
+  transition: opacity 0.12s ease;
+}
+
+/* Links inside the app: a smaller, flatter badge, hidden until wanted (see Overlays). */
 .link-badge.internal {
+  width: 18px;
+  height: 18px;
   color: var(--accent);
+  box-shadow: none;
+}
+
+.link-badge.quiet {
+  opacity: 0;
 }
 
 .link-badge.missing {

@@ -57,6 +57,11 @@ import { exitPreview } from "../utils/versions";
 import TextEditorOverlay from "./TextEditorOverlay";
 import Overlays from "./Overlays";
 
+/** The element under the pointer, for showing its link badge (only stored when it changes). */
+function setHoverElement(id: string | null) {
+  if (useStore.getState().hoverElementId !== id) useStore.setState({ hoverElementId: id });
+}
+
 type Interaction =
   | { type: "none" }
   | { type: "panning"; lastX: number; lastY: number; startX?: number; startY?: number; link?: string | null }
@@ -1025,6 +1030,7 @@ export default function Canvas() {
           const el = hit ? s.elements.find((x) => x.id === hit) : undefined;
           const url = el ? (textLinkAt(el, pt) ?? (el.type === "embed" ? null : el.link) ?? null) : null;
           setHoverLink(url ? { url, x: e.clientX, y: e.clientY } : null);
+          setHoverElement(el?.id ?? null);
           setCursor(url ? "pointer" : "grab");
           return;
         }
@@ -1047,8 +1053,10 @@ export default function Canvas() {
             const hitEl = hit ? s.elements.find((x) => x.id === hit) : undefined;
             const linkHit = hitTest(pt, true);
             const linkEl = linkHit ? s.elements.find((x) => x.id === linkHit) : undefined;
-            const url = linkEl ? textLinkAt(linkEl, pt) : null;
+            // a link into the app has a quiet badge, so hovering it explains where it goes
+            const url = linkEl ? (textLinkAt(linkEl, pt) ?? (isInternalLink(linkEl.link) ? linkEl.link : null)) : null;
             setHoverLink(url ? { url, x: e.clientX, y: e.clientY } : null);
+            setHoverElement(linkEl?.id ?? null);
             const followable = (e.ctrlKey || e.metaKey) && (url || linkEl?.link);
             setCursor(followable ? "pointer" : hitEl ? "move" : "default");
           }
@@ -1561,6 +1569,7 @@ export default function Canvas() {
         onPointerLeave={() => {
           setCursor("default");
           setHoverLink(null);
+          setHoverElement(null);
         }}
         onDoubleClick={handleDoubleClick}
         onDrop={handleDrop}

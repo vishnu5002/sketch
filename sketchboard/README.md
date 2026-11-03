@@ -109,6 +109,7 @@ npm run build
   - **Linked from N places**: select something to see what links to it, and jump to any of those places.
   - Right-click → *Copy link to this* (or *to this page*) copies a link you can paste into any link box, onto the canvas as linked text, or into another drawing. *Insert contents (linked)* adds a list of every page and frame, each line a link.
   - Copies keep links working: duplicating elements or a page points their links at the copies, and cut-then-paste keeps the originals' ids. Deleting something that links point to says so, and a link whose target is gone shows a red badge (click it to choose a new target).
+  - Links inside the app keep their badge out of sight until you hover or select the element, or hold Ctrl/⌘ to show them all (menu → Always show in-app link badges to keep them on). Web-link badges always show.
 
 **Navigation & tools**
 - Infinite pan/zoom, pinch-zoom and two-finger pan on touch, minimap, zoom to fit/selection
