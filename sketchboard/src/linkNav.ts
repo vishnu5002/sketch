@@ -3,10 +3,23 @@
 // browser Back, Alt+← and the Back chip all return to exactly that spot.
 import { livePages, useStore, type LinkPickState } from "./store";
 import type { SketchElement, Viewport } from "./types";
+import { projectsApi } from "./api";
 import { sanitizeLink } from "./utils/embed";
-import { elementLink, isInternalLink, pageLink, resolveInternalLink, type ResolvedTarget } from "./utils/internalLinks";
+import {
+  drawingLink,
+  elementLink,
+  isInternalLink,
+  localizeLink,
+  pageLink,
+  parseInternalLink,
+  resolveInternalLink,
+  type ResolvedTarget,
+} from "./utils/internalLinks";
 import { setLinkRange } from "./utils/textLinks";
+import { renderElementsToCanvas } from "./utils/exportScene";
+import { getCommonBounds } from "./utils/geometry";
 import { zoomToBounds } from "./actions";
+import { openInEditor } from "./project";
 
 interface NavEntry {
   sbNav: true;
@@ -36,6 +49,8 @@ function here(index: number): NavEntry | null {
 export function linkTitle(link: string | null | undefined): string {
   if (!link) return "";
   if (!isInternalLink(link)) return link;
+  const d = parseInternalLink(link);
+  if (d?.kind === "drawing") return `↪ ${drawingNames.get(d.projectId) ?? "Another drawing"}${d.pageId ? " (a place in it)" : ""}`;
   const t = resolveInternalLink(link, livePages());
   return t ? `↪ ${t.label}` : "↪ Missing target (deleted?)";
 }
@@ -50,6 +65,18 @@ export function followLink(link: string | null | undefined) {
 }
 
 export function goToInternal(link: string) {
+  const d = parseInternalLink(localizeLink(link, st().project?.id));
+  if (d?.kind === "drawing") {
+    if (d.projectId === st().project?.id) {
+      zoomToBounds(st().elements, 1);
+      return;
+    }
+    // open the other drawing; the target is shown once it has loaded
+    pending = d.pageId ? { projectId: d.projectId, link: d.elementId ? elementLink(d.pageId, d.elementId) : pageLink(d.pageId) } : null;
+    openInEditor(d.projectId);
+    return;
+  }
+  link = localizeLink(link, st().project?.id);
   const target = resolveInternalLink(link, livePages());
   if (!target) {
     st().showToast("That link's target no longer exists");
@@ -91,6 +118,38 @@ export function navigateBack(): boolean {
   return true;
 }
 
+// ---------- other drawings ----------
+
+/** A link into another drawing waiting for that drawing to open. */
+let pending: { projectId: string; link: string } | null = null;
+const drawingNames = new Map<string, string>();
+
+/** Names of the other drawings, for link labels and the link picker. */
+export function knownDrawings(): { id: string; name: string }[] {
+  return [...drawingNames].filter(([id]) => id !== st().project?.id).map(([id, name]) => ({ id, name }));
+}
+
+export const drawingName = (id: string) => drawingNames.get(id);
+
+async function refreshDrawingNames() {
+  try {
+    const list = await projectsApi.list();
+    drawingNames.clear();
+    for (const p of list) drawingNames.set(p.id, p.name);
+  } catch {
+    // labels fall back to "Another drawing"
+  }
+}
+
+function showPending() {
+  const p = pending;
+  if (!p || st().project?.id !== p.projectId) return;
+  pending = null;
+  const target = resolveInternalLink(p.link, livePages());
+  if (target) showTarget(target);
+  else st().showToast("That link's target no longer exists in this drawing");
+}
+
 let listening = false;
 
 export function startLinkNav() {
@@ -108,19 +167,30 @@ export function startLinkNav() {
     st().setSelectedIds([]);
     useStore.setState({ navBack: n.index > 0 ? (trail[n.index - 1] ?? "previous view") : null });
   });
-  // Leaving the drawing ends its trail.
+  // Leaving the drawing ends its trail; arriving at one may finish a link into it.
   useStore.subscribe((s, prev) => {
-    if (s.project?.id !== prev.project?.id && s.navBack) useStore.setState({ navBack: null });
+    if (s.project?.id === prev.project?.id) return;
+    if (s.navBack) useStore.setState({ navBack: null });
+    if (s.project) {
+      void refreshDrawingNames();
+      // after the opening zoom-to-fit (scheduled for the next frame)
+      if (pending) setTimeout(showPending, 80);
+    }
   });
+  void refreshDrawingNames();
 }
 
-/** Put a link to an element (or, with none, the current page) on the clipboard. */
+/**
+ * Put a link to an element (or, with none, the current page) on the clipboard.
+ * It names this drawing, so it also works when pasted into another one.
+ */
 export async function copyLinkTo(elementId?: string) {
   const s = st();
-  const link = elementId ? elementLink(s.activePageId, elementId) : pageLink(s.activePageId);
+  const local = elementId ? elementLink(s.activePageId, elementId) : pageLink(s.activePageId);
+  const link = s.project ? drawingLink(s.project.id, s.activePageId, elementId) : local;
   try {
     await navigator.clipboard.writeText(link);
-    s.showToast(`Copied link to ${resolveInternalLink(link, livePages())?.label ?? "this"} — paste it into any link box`);
+    s.showToast(`Copied link to ${resolveInternalLink(local, livePages())?.label ?? "this"} — paste it into any link box`);
   } catch {
     s.showToast("Couldn't copy to the clipboard");
   }
@@ -156,4 +226,44 @@ export function finishLinkPick(link: string | null) {
   else st().setLink(el.id, link);
   const label = resolveInternalLink(link, livePages())?.label;
   if (label) st().showToast(`Linked to ${label}`);
+}
+
+// ---------- previews ----------
+
+/** What a link shows when followed: the element (its whole card or frame), or the page. */
+function previewElements(t: ResolvedTarget): SketchElement[] {
+  const els = t.page.elements;
+  const el = t.element;
+  if (!el) return els;
+  if (el.type === "frame") return els.filter((e) => e.id === el.id || e.frameId === el.id);
+  return el.groupId ? els.filter((e) => e.groupId === el.groupId) : [el];
+}
+
+// keyed by each page's elements array, so an edit to a page drops its previews
+const previews = new WeakMap<SketchElement[], Map<string, Promise<string | null>>>();
+
+/** A small picture of where an internal link goes (null for web links and missing targets). */
+export function linkPreview(link: string, maxW = 260, maxH = 160): Promise<string | null> {
+  const t = isInternalLink(link) ? resolveInternalLink(localizeLink(link, st().project?.id), livePages()) : null;
+  if (!t) return Promise.resolve(null);
+  let byLink = previews.get(t.page.elements);
+  if (!byLink) previews.set(t.page.elements, (byLink = new Map()));
+  let p = byLink.get(link);
+  if (!p) {
+    const els = previewElements(t);
+    const b = getCommonBounds(els);
+    const s = st();
+    p = b
+      ? renderElementsToCanvas(els, {
+          background: s.canvasBg,
+          scale: Math.min(1, maxW / Math.max(1, b.x2 - b.x1 + 20), maxH / Math.max(1, b.y2 - b.y1 + 44)),
+          dark: s.theme === "dark",
+          padding: 10,
+        })
+          .then((c) => c.toDataURL("image/png"))
+          .catch(() => null)
+      : Promise.resolve(null);
+    byLink.set(link, p);
+  }
+  return p;
 }

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Plus, MoreHorizontal } from "lucide-react";
-import { useStore } from "../store";
+import { livePages, useStore } from "../store";
+import { backlinksTo } from "../utils/internalLinks";
 import { snapshotNow } from "../utils/versions";
 
 export default function PagesBar() {
@@ -25,7 +26,12 @@ export default function PagesBar() {
   const remove = (id: string) => {
     const page = pages.find((p) => p.id === id);
     const count = id === activePageId ? elements.length : page?.elements.length ?? 0;
-    if (count === 0 || confirm(`Delete "${page?.name}" and its ${count} element${count === 1 ? "" : "s"}? You can get it back from Version history.`)) {
+    // links from other pages to this page or anything on it
+    const pageEls = id === activePageId ? elements : page?.elements ?? [];
+    const others = livePages().filter((p) => p.id !== id);
+    const links = backlinksTo(others, new Set(pageEls.map((e) => e.id)), id).length;
+    const linkNote = links ? ` ${links} link${links === 1 ? "" : "s"} on other pages point${links === 1 ? "s" : ""} here and will stop working.` : "";
+    if ((count === 0 && !links) || confirm(`Delete "${page?.name}" and its ${count} element${count === 1 ? "" : "s"}?${linkNote} You can get it back from Version history.`)) {
       snapshotNow("safety", { reason: `Before deleting page “${page?.name}”` }).then(() => st().deletePage(id));
     }
   };

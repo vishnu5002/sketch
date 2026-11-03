@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useStore } from "../store";
-import { toggleViewMode, addSelectionToLibrary, copyAsPNG, copyAsSVG, copySelection, cutSelection, pastePayload, selectedElements, zoomToFit, zoomToSelection } from "../actions";
+import { toggleViewMode, addSelectionToLibrary, copyAsPNG, copyAsSVG, copySelection, cutSelection, pastePayload, selectedElements, zoomToFit, zoomToSelection, insertContents } from "../actions";
 import { copyLinkTo } from "../linkNav";
 import { readClipboard } from "../utils/clipboard";
 
@@ -87,6 +87,7 @@ export default function ContextMenu() {
       { label: "Paste", kbd: "Ctrl+V", onClick: async () => pastePayload(await readClipboard(), menu.scene) },
       { label: "Select all", kbd: "Ctrl+A", onClick: () => s.selectAll() },
       { label: "Copy link to this page", onClick: () => copyLinkTo() },
+      { label: "Insert contents (linked)", onClick: () => insertContents(menu.scene) },
       { label: "Unlock all", hidden: !elements.some((e) => e.locked), onClick: () => s.unlockAll() },
       "divider",
       { label: s.gridEnabled ? "Hide grid" : "Show grid", kbd: "Ctrl+'", onClick: () => s.toggleGrid() },

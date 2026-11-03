@@ -9,6 +9,7 @@ import HelpModal from "./components/HelpModal";
 import ContextMenu from "./components/ContextMenu";
 import LinkEditor from "./components/LinkEditor";
 import LinkNavBar from "./components/LinkNavBar";
+import Backlinks from "./components/Backlinks";
 import StatsPanel from "./components/StatsPanel";
 import SearchBox from "./components/SearchBox";
 import Minimap from "./components/Minimap";
@@ -95,6 +96,7 @@ function Editor() {
       {previewing ? <PreviewBanner /> : viewMode ? <ViewModeBar /> : <Toolbar />}
       <SyncBanner />
       <LinkNavBar />
+      <Backlinks />
       <TopRightBar />
       {!viewMode && <StylePanel />}
       {!viewMode && <StatsPanel />}

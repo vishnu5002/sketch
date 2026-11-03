@@ -13,6 +13,7 @@ import type {
 } from "./types";
 import { cleanupReferences, refreshBindings } from "./utils/binding";
 import { cloneElements } from "./utils/clone";
+import { backlinksTo } from "./utils/internalLinks";
 import { assignFrames, frameChildren } from "./utils/frames";
 import { getCommonBounds } from "./utils/geometry";
 import { libraryApi, settingsApi, type FileState } from "./api";
@@ -429,7 +430,10 @@ export const useStore = create<AppState>()((set, get) => ({
       const idSet = new Set(ids);
       const past = pushHistory(s);
       const elements = cleanupReferences(s.elements.filter((e) => !idSet.has(e.id)));
-      return { elements, selectedIds: s.selectedIds.filter((id) => !idSet.has(id)), past, future: [] };
+      // say so when this breaks links pointing here (from what's left)
+      const broken = backlinksTo(syncedPages({ ...s, elements }), idSet).length;
+      const toast = broken ? { toast: { id: Date.now() + Math.random(), message: `${broken} link${broken === 1 ? "" : "s"} pointed to what you deleted — Ctrl+Z to undo` } } : {};
+      return { elements, selectedIds: s.selectedIds.filter((id) => !idSet.has(id)), past, future: [], ...toast };
     }),
   removeElementsNoHistory: (ids) =>
     set((s) => {
@@ -449,6 +453,7 @@ export const useStore = create<AppState>()((set, get) => ({
       s.elements.filter((e) => ids.has(e.id)),
       10,
       10,
+      { pageId: s.activePageId },
     );
     get().insertElements(copies);
   },
@@ -612,7 +617,10 @@ export const useStore = create<AppState>()((set, get) => ({
       const pages = syncedPages(s);
       const src = pages.find((p) => p.id === id);
       if (!src) return s;
-      const copy: Page = { id: nanoid(), name: `${src.name} copy`, elements: cloneElements(src.elements), viewport: src.viewport };
+      const copyId = nanoid();
+      // links within the page (to its elements, or the page itself) point into the copy
+      const elements = cloneElements(src.elements, 0, 0, { pageMap: new Map([[src.id, copyId]]) });
+      const copy: Page = { id: copyId, name: `${src.name} copy`, elements, viewport: src.viewport };
       const idx = pages.indexOf(src);
       return switchTo([...pages.slice(0, idx + 1), copy, ...pages.slice(idx + 1)], copy.id);
     }),
@@ -624,7 +632,8 @@ export const useStore = create<AppState>()((set, get) => ({
       const item: LibraryItem = {
         id: nanoid(),
         name: name ?? `Item ${s.library.length + 1}`,
-        elements: cloneElements(els, -b.x1, -b.y1),
+        // links to things outside the item would dangle wherever it's inserted
+        elements: cloneElements(els, -b.x1, -b.y1, { dropOutside: true }),
         created: Date.now(),
       };
       return { library: [item, ...s.library] };

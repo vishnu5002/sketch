@@ -52,6 +52,7 @@ import { onFontLoaded } from "../utils/fonts";
 import { autoLink } from "../utils/textLinks";
 import { isInternalLink } from "../utils/internalLinks";
 import { linkTitle, navigateBack, finishLinkPick, pickHere } from "../linkNav";
+import LinkPreview from "./LinkPreview";
 import { exitPreview } from "../utils/versions";
 import TextEditorOverlay from "./TextEditorOverlay";
 import Overlays from "./Overlays";
@@ -857,7 +858,7 @@ export default function Canvas() {
       if (e.altKey && selection.length) {
         // Alt-drag leaves the originals in place and drags fresh copies.
         const ids = new Set(selection);
-        const copies = cloneElements(s.elements.filter((x) => ids.has(x.id)));
+        const copies = cloneElements(s.elements.filter((x) => ids.has(x.id)), 0, 0, { pageId: s.activePageId });
         s.replaceElements([...s.elements, ...copies]);
         selection = copies.map((c) => c.id);
       }
@@ -1570,6 +1571,7 @@ export default function Canvas() {
       {hoverLink && interactionRef.current.type === "none" && (
         <div className="text-link-tooltip" style={{ left: hoverLink.x + 12, top: hoverLink.y + 16 }}>
           <span>{linkTitle(hoverLink.url)}</span>
+          {isInternalLink(hoverLink.url) && <LinkPreview link={hoverLink.url} />}
           <kbd>
             {viewMode ? "Click" : `${navigator.platform.includes("Mac") ? "⌘" : "Ctrl"}+click`} {isInternalLink(hoverLink.url) ? "to go there" : "to open"}
           </kbd>

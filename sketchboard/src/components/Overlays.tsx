@@ -7,7 +7,7 @@ import { sceneToScreen } from "../utils/viewport";
 import { getEmbedSrc, hostOf, sanitizeEmbedUrl } from "../utils/embed";
 import { openLink } from "../actions";
 import { linkTitle } from "../linkNav";
-import { isInternalLink, resolveInternalLink } from "../utils/internalLinks";
+import { isInternalLink, otherDrawingOf, resolveInternalLink } from "../utils/internalLinks";
 
 function EmbedFrame({ el, viewport, active, live }: { el: SketchElement; viewport: Viewport; active: boolean; live: boolean }) {
   const src = el.link ? sanitizeEmbedUrl(el.link) : null;
@@ -99,15 +99,15 @@ export default function Overlays() {
           const b = getRotatedBounds(el);
           const p = sceneToScreen({ x: b.x2, y: b.y1 }, viewport);
           const internal = isInternalLink(el.link);
-          const missing = internal && !resolveInternalLink(el.link, pages);
+          const missing = internal && !otherDrawingOf(el.link) && !resolveInternalLink(el.link, pages);
           return (
             <button
               key={el.id}
               className={`link-badge ${internal ? "internal" : ""} ${missing ? "missing" : ""}`}
               style={{ left: p.x + 4, top: p.y - 22 }}
-              title={linkTitle(el.link)}
+              title={missing && !viewMode ? "The linked page or element no longer exists — click to choose a new target" : linkTitle(el.link)}
               onPointerDown={(e) => e.stopPropagation()}
-              onClick={() => openLink(el.link)}
+              onClick={() => (missing && !viewMode ? useStore.getState().setUI({ linkEditor: { elementId: el.id, mode: "link" } }) : openLink(el.link))}
             >
               {internal ? <CornerDownRight size={12} /> : <ExternalLink size={12} />}
             </button>

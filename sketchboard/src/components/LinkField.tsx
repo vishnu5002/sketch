@@ -1,12 +1,15 @@
 import { useMemo, useState, type FocusEvent, type ReactNode } from "react";
-import { Crosshair, FileText, Frame, Type, X } from "lucide-react";
-import { livePages } from "../store";
-import { isInternalLink, linkSuggestions, resolveInternalLink } from "../utils/internalLinks";
+import { Crosshair, FileText, Frame, LayoutDashboard, Type, X } from "lucide-react";
+import { livePages, useStore } from "../store";
+import { drawingLink, isInternalLink, linkSuggestions, localizeLink, otherDrawingOf, resolveInternalLink, type LinkSuggestion } from "../utils/internalLinks";
+import { drawingName, knownDrawings } from "../linkNav";
 
 /** Text that's clearly meant as a web address, so Enter shouldn't pick a suggestion instead. */
 const looksLikeAddress = (t: string) => /^[a-z][\w+.-]*:/i.test(t) || /^www\./i.test(t) || /^\S+\.[a-z]{2,}(\/\S*)?$/i.test(t);
 
-const KIND_ICON = { page: FileText, frame: Frame, text: Type };
+const KIND_ICON = { page: FileText, frame: Frame, text: Type, drawing: LayoutDashboard };
+
+type Suggestion = LinkSuggestion | { link: string; kind: "drawing"; label: string; pageName: string };
 
 /**
  * One input for both kinds of link: type or paste a web address, or type to
@@ -36,14 +39,27 @@ export default function LinkField({
   leading?: ReactNode;
   trailing?: ReactNode;
 }) {
+  const projectId = useStore((s) => s.project?.id);
   const [text, setText] = useState(isInternalLink(initial) ? "" : initial);
   const [target, setTarget] = useState<string | null>(isInternalLink(initial) ? initial : null);
   const [active, setActive] = useState(-1);
 
   const pages = useMemo(() => livePages(), []);
-  const resolved = target ? resolveInternalLink(target, pages) : null;
+  const otherDrawing = otherDrawingOf(target);
+  const resolved = target && !otherDrawing ? resolveInternalLink(target, pages) : null;
+  const chipLabel = otherDrawing ? `${drawingName(otherDrawing) ?? "Another drawing"}` : resolved?.label;
   const searching = !target && !looksLikeAddress(text.trim());
-  const suggestions = useMemo(() => (searching ? linkSuggestions(pages, text, 60) : []), [pages, text, searching]);
+  const suggestions = useMemo<Suggestion[]>(() => {
+    if (!searching) return [];
+    const q = text.trim().toLowerCase();
+    // other drawings come last, and only once something is typed
+    const drawings = q
+      ? knownDrawings()
+          .filter((d) => d.name.toLowerCase().includes(q))
+          .map((d) => ({ link: drawingLink(d.id), kind: "drawing" as const, label: d.name, pageName: "Other drawing" }))
+      : [];
+    return [...linkSuggestions(pages, text, 60), ...drawings];
+  }, [pages, text, searching]);
 
   const edit = (next: string) => {
     setText(next);
@@ -53,10 +69,12 @@ export default function LinkField({
     onEdit?.();
   };
 
+  // a link copied from this same drawing is stored in its short form
+  const choose = (v: string) => onSubmit(localizeLink(v.trim(), projectId));
   const submit = () => {
-    if (target) onSubmit(target);
-    else if (active >= 0 && suggestions[active]) onSubmit(suggestions[active].link);
-    else onSubmit(text);
+    if (target) choose(target);
+    else if (active >= 0 && suggestions[active]) choose(suggestions[active].link);
+    else choose(text);
   };
 
   return (
@@ -64,8 +82,8 @@ export default function LinkField({
       <div className="link-editor-row">
         {leading}
         {target && (
-          <span className={`link-target-chip ${resolved ? "" : "missing"}`} title={resolved ? `Jumps to ${resolved.label}` : "The linked page or element no longer exists"}>
-            ↪ {resolved?.label ?? "Missing target"}
+          <span className={`link-target-chip ${chipLabel ? "" : "missing"}`} title={chipLabel ? `Jumps to ${chipLabel}` : "The linked page or element no longer exists"}>
+            ↪ {chipLabel ?? "Missing target"}
             <button title="Clear" onPointerDown={(e) => e.preventDefault()} onClick={() => edit("")}>
               <X size={12} />
             </button>
@@ -75,7 +93,16 @@ export default function LinkField({
           autoFocus
           value={text}
           placeholder={target ? "" : placeholder}
-          onChange={(e) => edit(e.target.value)}
+          onChange={(e) => {
+            // pasting a copied link shows it as a target chip
+            const v = e.target.value.trim();
+            if (isInternalLink(v) && !target) {
+              setText("");
+              setTarget(localizeLink(v, projectId));
+              setActive(-1);
+              onEdit?.();
+            } else edit(e.target.value);
+          }}
           onBlur={onBlur}
           onKeyDown={(e) => {
             e.stopPropagation();
@@ -109,7 +136,7 @@ export default function LinkField({
                 // keep focus in the input so blur handlers don't close the editor
                 onPointerDown={(e) => e.preventDefault()}
                 onPointerEnter={() => setActive(i)}
-                onClick={() => onSubmit(sg.link)}
+                onClick={() => choose(sg.link)}
               >
                 <Icon size={14} />
                 <span className="sg-label">{sg.label}</span>

@@ -153,12 +153,14 @@ export function copyPreviewPageToCurrent() {
   if (!s.preview) return;
   const meta = s.versions.find((v) => v.id === s.preview!.versionId);
   const page = s.pages.find((p) => p.id === s.activePageId);
-  const elements = cloneElements(s.elements);
+  const source = s.elements;
+  const sourcePageId = s.activePageId;
   exitPreview();
   const name = `${page?.name ?? "Page"} (${meta ? timeLabel(meta.created) : "old version"})`;
   st().addPage();
   const created = useStore.getState();
   created.renamePage(created.activePageId, name);
+  const elements = cloneElements(source, 0, 0, { pageMap: new Map([[sourcePageId, created.activePageId]]) });
   useStore.setState({ elements });
   st().showToast(`Copied into new page “${name}”`);
 }

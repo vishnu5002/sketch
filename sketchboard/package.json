@@ -13,6 +13,8 @@
     "service:uninstall": "bash deploy/uninstall-service.sh",
     "deploy": "npm run build && systemctl --user restart sketchboard",
     "test:api": "node --test \"server/test/*.test.mjs\"",
+    "test:app": "node --import ./test/resolve-ts.mjs --test \"test/*.test.ts\"",
+    "test": "npm run test:api && npm run test:app",
     "dev:api": "PORT=5185 API_ONLY=1 BACKUPS=0 EXTRA_PORTS=5184 SKETCHBOARD_DATA=${SKETCHBOARD_DEV_DATA:-$HOME/.local/share/sketchboard/dev} node --watch-path=server --watch-path=deploy deploy/serve.mjs",
     "dev:all": "bash run-dev.sh"
   },

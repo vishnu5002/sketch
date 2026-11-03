@@ -1,13 +1,14 @@
 import { livePages, refit, useStore } from "./store";
 import { exitPreview } from "./utils/versions";
-import type { ElementType, Point, SketchElement } from "./types";
+import type { ElementType, Point, SketchElement, TextLink } from "./types";
 import { cloneElements } from "./utils/clone";
 import { getCommonBounds } from "./utils/geometry";
 import { makeId, randomSeed } from "./utils/id";
 import { screenToScene } from "./utils/viewport";
 import { getKnownEmbed, looksLikeUrl, sanitizeEmbedUrl, sanitizeLink } from "./utils/embed";
 import { preloadImage } from "./utils/renderer";
-import { isInternalLink, resolveInternalLink } from "./utils/internalLinks";
+import { elementLink, isInternalLink, localizeLink, otherDrawingOf, pageLink, resolveInternalLink } from "./utils/internalLinks";
+import { drawingName } from "./linkNav";
 import { copyPNGToClipboard, copySVGToClipboard, readImageFile } from "./utils/exportScene";
 import { writeElementsToClipboard, type ClipboardPayload } from "./utils/clipboard";
 
@@ -122,17 +123,30 @@ export async function pastePayload(payload: ClipboardPayload, at?: Point) {
   }
   if (payload.elements?.length) {
     const b = getCommonBounds(payload.elements)!;
-    s.insertElements(cloneElements(payload.elements, p.x - (b.x1 + b.x2) / 2, p.y - (b.y1 + b.y2) / 2));
+    const dx = p.x - (b.x1 + b.x2) / 2;
+    const dy = p.y - (b.y1 + b.y2) / 2;
+    // Cut then paste is a move: when none of the ids exist any more, keep them
+    // so links pointing at these elements keep working.
+    const existing = new Set(livePages().flatMap((pg) => pg.elements.map((e) => e.id)));
+    if (payload.elements.every((e) => !existing.has(e.id))) {
+      s.insertElements(payload.elements.map((e) => ({ ...e, x: e.x + dx, y: e.y + dy, points: e.points?.map((pt) => [pt[0], pt[1]] as [number, number]), locked: false })));
+    } else {
+      s.insertElements(cloneElements(payload.elements, dx, dy, { pageId: s.activePageId }));
+    }
     return;
   }
   const text = payload.text?.replace(/\r\n/g, "\n");
   if (!text || !text.trim()) return;
-  const target = isInternalLink(text.trim()) ? resolveInternalLink(text.trim(), livePages()) : null;
-  if (target) {
+  if (isInternalLink(text.trim())) {
     // a copied "link to this": paste it as text naming the place, linked there
-    const t = target.name;
-    s.insertElements([textElement(p, t, { textLinks: [{ start: 0, end: t.length, url: text.trim() }] })]);
-    return;
+    const link = localizeLink(text.trim(), s.project?.id);
+    const other = otherDrawingOf(link);
+    const target = other ? null : resolveInternalLink(link, livePages());
+    const t = other ? (drawingName(other) ?? "Linked drawing") : target?.name;
+    if (t) {
+      s.insertElements([textElement(p, t, { textLinks: [{ start: 0, end: t.length, url: link }] })]);
+      return;
+    }
   }
   if (looksLikeUrl(text)) {
     const url = sanitizeEmbedUrl(text);
@@ -158,7 +172,10 @@ export function copySelection() {
 export function cutSelection() {
   const s = useStore.getState();
   copySelection();
+  const before = useStore.getState().toast;
   s.deleteElements(s.selectedIds);
+  // a cut is usually a move, and pasting it back keeps its ids (see pastePayload)
+  if (useStore.getState().toast !== before) toast("Cut — links to it will work again once you paste it");
 }
 
 export function zoomToBounds(els: SketchElement[], maxZoom = 1) {
@@ -258,4 +275,28 @@ export function toggleViewMode() {
   }
   s.toggleViewMode();
   toast(useStore.getState().viewMode ? "View mode — press Alt+R to edit again" : "Editing enabled");
+}
+
+/**
+ * A linked table of contents: every page and the frames on it, one per line,
+ * each line linking there. One text element, so it moves and restyles as one.
+ */
+export function insertContents(at?: Point) {
+  const s = useStore.getState();
+  const lines: { text: string; url: string | null }[] = [{ text: "Contents", url: null }];
+  for (const page of livePages()) {
+    lines.push({ text: page.name, url: pageLink(page.id) });
+    const frames = page.elements.filter((e) => e.type === "frame" && e.name?.trim()).sort((a, b) => a.y - b.y || a.x - b.x);
+    for (const f of frames) lines.push({ text: `    ${f.name!.trim()}`, url: elementLink(page.id, f.id) });
+  }
+  let text = "";
+  const textLinks: TextLink[] = [];
+  for (const l of lines) {
+    if (text) text += "\n";
+    const indent = l.text.length - l.text.trimStart().length;
+    if (l.url) textLinks.push({ start: text.length + indent, end: text.length + l.text.length, url: l.url });
+    text += l.text;
+  }
+  s.insertElements([textElement(at ?? sceneCenter(), text, { textLinks })]);
+  toast(`Inserted contents: ${lines.length - 1} links`);
 }
