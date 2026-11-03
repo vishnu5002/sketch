@@ -1,11 +1,13 @@
-import { useEffect, useRef } from "react";
-import { ExternalLink } from "lucide-react";
+import { useEffect, useMemo, useRef } from "react";
+import { CornerDownRight, ExternalLink } from "lucide-react";
 import { useStore } from "../store";
 import type { SketchElement, Viewport } from "../types";
 import { getRotatedBounds } from "../utils/geometry";
 import { sceneToScreen } from "../utils/viewport";
 import { getEmbedSrc, hostOf, sanitizeEmbedUrl } from "../utils/embed";
 import { openLink } from "../actions";
+import { linkTitle } from "../linkNav";
+import { isInternalLink, resolveInternalLink } from "../utils/internalLinks";
 
 function EmbedFrame({ el, viewport, active, live }: { el: SketchElement; viewport: Viewport; active: boolean; live: boolean }) {
   const src = el.link ? sanitizeEmbedUrl(el.link) : null;
@@ -77,6 +79,10 @@ export default function Overlays() {
   const editingFrameId = useStore((s) => s.editingFrameId);
   const editingTextId = useStore((s) => s.editingTextId);
   const viewMode = useStore((s) => s.viewMode);
+  // every page's current elements, for checking internal links still have a target
+  const storedPages = useStore((s) => s.pages);
+  const activePageId = useStore((s) => s.activePageId);
+  const pages = useMemo(() => storedPages.map((p) => (p.id === activePageId ? { ...p, elements } : p)), [storedPages, activePageId, elements]);
 
   const editingFrame = editingFrameId ? elements.find((e) => e.id === editingFrameId) : undefined;
 
@@ -92,16 +98,18 @@ export default function Overlays() {
         .map((el) => {
           const b = getRotatedBounds(el);
           const p = sceneToScreen({ x: b.x2, y: b.y1 }, viewport);
+          const internal = isInternalLink(el.link);
+          const missing = internal && !resolveInternalLink(el.link, pages);
           return (
             <button
               key={el.id}
-              className="link-badge"
+              className={`link-badge ${internal ? "internal" : ""} ${missing ? "missing" : ""}`}
               style={{ left: p.x + 4, top: p.y - 22 }}
-              title={el.link ?? ""}
+              title={linkTitle(el.link)}
               onPointerDown={(e) => e.stopPropagation()}
               onClick={() => openLink(el.link)}
             >
-              <ExternalLink size={12} />
+              {internal ? <CornerDownRight size={12} /> : <ExternalLink size={12} />}
             </button>
           );
         })}

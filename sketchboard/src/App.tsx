@@ -8,6 +8,7 @@ import TopRightBar from "./components/TopRightBar";
 import HelpModal from "./components/HelpModal";
 import ContextMenu from "./components/ContextMenu";
 import LinkEditor from "./components/LinkEditor";
+import LinkNavBar from "./components/LinkNavBar";
 import StatsPanel from "./components/StatsPanel";
 import SearchBox from "./components/SearchBox";
 import Minimap from "./components/Minimap";
@@ -25,6 +26,7 @@ import VersionPanel from "./components/VersionPanel";
 import PreviewBanner from "./components/PreviewBanner";
 import { migrateBrowserData } from "./migrate";
 import { startLiveUpdates, startRouter } from "./project";
+import { startLinkNav } from "./linkNav";
 import { useStore } from "./store";
 import "./app.css";
 
@@ -45,6 +47,7 @@ async function boot() {
   }
   await useStore.getState().hydrate();
   startLiveUpdates();
+  startLinkNav();
   startRouter();
 }
 
@@ -91,6 +94,7 @@ function Editor() {
       <ProjectChip />
       {previewing ? <PreviewBanner /> : viewMode ? <ViewModeBar /> : <Toolbar />}
       <SyncBanner />
+      <LinkNavBar />
       <TopRightBar />
       {!viewMode && <StylePanel />}
       {!viewMode && <StatsPanel />}

@@ -5,7 +5,10 @@ import type { SketchElement } from "../types";
 import { getRotatedBounds } from "../utils/geometry";
 import { sceneToScreen } from "../utils/viewport";
 import { getKnownEmbed, sanitizeEmbedUrl, sanitizeLink } from "../utils/embed";
+import { isInternalLink } from "../utils/internalLinks";
 import { openLink } from "../actions";
+import { startLinkPick } from "../linkNav";
+import LinkField from "./LinkField";
 
 function Editor({ el, mode, isNew }: { el: SketchElement; mode: "link" | "embed"; isNew?: boolean }) {
   const viewport = useStore((s) => s.viewport);
@@ -15,12 +18,13 @@ function Editor({ el, mode, isNew }: { el: SketchElement; mode: "link" | "embed"
   const st = useStore.getState;
 
   useEffect(() => {
+    if (mode !== "embed") return;
     const raf = requestAnimationFrame(() => {
       inputRef.current?.focus();
       inputRef.current?.select();
     });
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [mode]);
 
   const close = () => st().setUI({ linkEditor: null });
 
@@ -29,8 +33,8 @@ function Editor({ el, mode, isNew }: { el: SketchElement; mode: "link" | "embed"
     if (mode === "embed" && isNew && !el.link) st().undo();
   };
 
-  const save = () => {
-    const raw = value.trim();
+  const save = (input = value) => {
+    const raw = input.trim();
     if (!raw) {
       if (mode === "link" && el.link) st().setLink(el.id, null);
       cancel();
@@ -38,7 +42,7 @@ function Editor({ el, mode, isNew }: { el: SketchElement; mode: "link" | "embed"
     }
     const url = mode === "embed" ? sanitizeEmbedUrl(raw) : sanitizeLink(raw);
     if (!url) {
-      setError(mode === "embed" ? "Enter an http(s) web address" : "Links must be web, mailto: or tel: addresses");
+      setError(mode === "embed" ? "Enter an http(s) web address" : "Links must be web, mailto: or tel: addresses, or a place in this drawing");
       return;
     }
     st().setLink(el.id, url);
@@ -55,44 +59,63 @@ function Editor({ el, mode, isNew }: { el: SketchElement; mode: "link" | "embed"
   const y = top.y - 64 > 60 ? top.y - 64 : bottom.y + 14;
   const x = Math.max(12, Math.min(top.x, window.innerWidth - 392));
 
+  const openButton = el.link && (
+    <button title={mode === "link" && isInternalLink(el.link) ? "Go there" : "Open in new tab"} onClick={() => openLink(el.link)}>
+      <ExternalLink size={15} />
+    </button>
+  );
+
   return (
     <div className="link-editor" style={{ left: x, top: y }} onPointerDown={(e) => e.stopPropagation()}>
-      <div className="link-editor-row">
-        {mode === "embed" ? <Globe size={16} /> : <Link2 size={16} />}
-        <input
-          ref={inputRef}
-          value={value}
-          placeholder={mode === "embed" ? "Paste a YouTube, Figma, Loom, CodePen… or any https:// URL" : "Type or paste a link"}
-          onChange={(e) => {
-            setValue(e.target.value);
-            setError("");
-          }}
-          onKeyDown={(e) => {
-            e.stopPropagation();
-            if (e.key === "Enter") save();
-            if (e.key === "Escape") cancel();
-          }}
+      {mode === "link" ? (
+        <LinkField
+          initial={el.link ?? ""}
+          placeholder="Paste a web address, or type to find a page or element"
+          onSubmit={save}
+          onCancel={cancel}
+          onPick={() => startLinkPick(el.id)}
+          onEdit={() => setError("")}
+          leading={<Link2 size={16} />}
+          trailing={
+            el.link && (
+              <>
+                {openButton}
+                <button
+                  title="Remove link"
+                  onClick={() => {
+                    st().setLink(el.id, null);
+                    close();
+                  }}
+                >
+                  <Trash2 size={15} />
+                </button>
+              </>
+            )
+          }
         />
-        {el.link && (
-          <button title="Open in new tab" onClick={() => openLink(el.link)}>
-            <ExternalLink size={15} />
-          </button>
-        )}
-        {el.link && mode === "link" && (
-          <button
-            title="Remove link"
-            onClick={() => {
-              st().setLink(el.id, null);
-              close();
+      ) : (
+        <div className="link-editor-row">
+          <Globe size={16} />
+          <input
+            ref={inputRef}
+            value={value}
+            placeholder="Paste a YouTube, Figma, Loom, CodePen… or any https:// URL"
+            onChange={(e) => {
+              setValue(e.target.value);
+              setError("");
             }}
-          >
-            <Trash2 size={15} />
+            onKeyDown={(e) => {
+              e.stopPropagation();
+              if (e.key === "Enter") save();
+              if (e.key === "Escape") cancel();
+            }}
+          />
+          {openButton}
+          <button className="primary" onClick={() => save()}>
+            Save
           </button>
-        )}
-        <button className="primary" onClick={save}>
-          Save
-        </button>
-      </div>
+        </div>
+      )}
       {error && <div className="link-error">{error}</div>}
       {mode === "embed" && !error && <div className="link-hint">Some sites block being embedded — they'll show an error inside the frame.</div>}
     </div>

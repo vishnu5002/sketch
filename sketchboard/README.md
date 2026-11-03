@@ -104,6 +104,7 @@ npm run build
 - Hyperlinks on any element (Ctrl+K), link badges, Ctrl+click to open; linked text is underlined
 - **Web embeds**: YouTube, Vimeo, Loom, Figma, CodePen, CodeSandbox, Spotify, Google Docs/Maps, or any https URL; double-click to interact
 - Pasting a URL creates an embed for known providers, linked text otherwise
+- **Links within the drawing**: link any element or piece of text to a page, frame or element (on any page). In the link box (Ctrl+K), type to search pages, frames and text, or use **Pick on canvas** to click the target. Following one jumps there and fits it in view; **Back** (the chip, Alt+← or the browser's Back) returns to exactly where you were. Right-click → *Copy link to this* copies a link you can paste into any link box, or onto the canvas as linked text. A link whose target was deleted shows a red badge.
 
 **Navigation & tools**
 - Infinite pan/zoom, pinch-zoom and two-finger pan on touch, minimap, zoom to fit/selection

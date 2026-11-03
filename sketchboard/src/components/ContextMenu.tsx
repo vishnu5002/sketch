@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useStore } from "../store";
 import { toggleViewMode, addSelectionToLibrary, copyAsPNG, copyAsSVG, copySelection, cutSelection, pastePayload, selectedElements, zoomToFit, zoomToSelection } from "../actions";
+import { copyLinkTo } from "../linkNav";
 import { readClipboard } from "../utils/clipboard";
 
 type Item = { label: string; kbd?: string; onClick: () => void; danger?: boolean; hidden?: boolean } | "divider";
@@ -60,6 +61,7 @@ export default function ContextMenu() {
         hidden: !single || single.type === "embed",
         onClick: () => single && st().setUI({ linkEditor: { elementId: single.id, mode: "link" } }),
       },
+      { label: "Copy link to this", hidden: !single, onClick: () => single && copyLinkTo(single.id) },
       { label: "Edit embed URL", hidden: single?.type !== "embed", onClick: () => single && st().setUI({ linkEditor: { elementId: single.id, mode: "embed" } }) },
       { label: "Interact with embed", hidden: single?.type !== "embed" || !single.link, onClick: () => single && st().setUI({ activeEmbedId: single.id }) },
       { label: "Rename frame", hidden: single?.type !== "frame", onClick: () => single && st().setUI({ editingFrameId: single.id }) },
@@ -84,6 +86,7 @@ export default function ContextMenu() {
     items = [
       { label: "Paste", kbd: "Ctrl+V", onClick: async () => pastePayload(await readClipboard(), menu.scene) },
       { label: "Select all", kbd: "Ctrl+A", onClick: () => s.selectAll() },
+      { label: "Copy link to this page", onClick: () => copyLinkTo() },
       { label: "Unlock all", hidden: !elements.some((e) => e.locked), onClick: () => s.unlockAll() },
       "divider",
       { label: s.gridEnabled ? "Hide grid" : "Show grid", kbd: "Ctrl+'", onClick: () => s.toggleGrid() },

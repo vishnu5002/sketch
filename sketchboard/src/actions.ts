@@ -1,4 +1,4 @@
-import { refit, useStore } from "./store";
+import { livePages, refit, useStore } from "./store";
 import { exitPreview } from "./utils/versions";
 import type { ElementType, Point, SketchElement } from "./types";
 import { cloneElements } from "./utils/clone";
@@ -7,6 +7,7 @@ import { makeId, randomSeed } from "./utils/id";
 import { screenToScene } from "./utils/viewport";
 import { getKnownEmbed, looksLikeUrl, sanitizeEmbedUrl, sanitizeLink } from "./utils/embed";
 import { preloadImage } from "./utils/renderer";
+import { isInternalLink, resolveInternalLink } from "./utils/internalLinks";
 import { copyPNGToClipboard, copySVGToClipboard, readImageFile } from "./utils/exportScene";
 import { writeElementsToClipboard, type ClipboardPayload } from "./utils/clipboard";
 
@@ -126,6 +127,13 @@ export async function pastePayload(payload: ClipboardPayload, at?: Point) {
   }
   const text = payload.text?.replace(/\r\n/g, "\n");
   if (!text || !text.trim()) return;
+  const target = isInternalLink(text.trim()) ? resolveInternalLink(text.trim(), livePages()) : null;
+  if (target) {
+    // a copied "link to this": paste it as text naming the place, linked there
+    const t = target.name;
+    s.insertElements([textElement(p, t, { textLinks: [{ start: 0, end: t.length, url: text.trim() }] })]);
+    return;
+  }
   if (looksLikeUrl(text)) {
     const url = sanitizeEmbedUrl(text);
     if (url && getKnownEmbed(url)) {
@@ -237,10 +245,8 @@ export function addSelectionToLibrary() {
   toast("Added to library");
 }
 
-export function openLink(link: string | null | undefined) {
-  const safe = link ? sanitizeLink(link) : null;
-  if (safe) window.open(safe, "_blank", "noopener,noreferrer");
-}
+// Web links open in a new tab; links into the drawing jump there (see linkNav.ts).
+export { followLink as openLink } from "./linkNav";
 
 export function toggleViewMode() {
   // finish any in-progress text edit first so it's committed, not abandoned

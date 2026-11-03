@@ -17,6 +17,7 @@ import { hostOf } from "./embed";
 import { fontCssForExport, loadFonts } from "./fonts";
 import { inlineImages } from "./images";
 import type { Bounds, DocumentFile, SketchElement } from "../types";
+import { isInternalLink } from "./internalLinks";
 
 export interface ExportOptions {
   background: string | null;
@@ -97,7 +98,7 @@ function svgText(el: SketchElement, color: string): SVGGElement | null {
     for (const seg of lineSegments(line, el.textLinks)) {
       const span = svgEl("tspan", seg.url ? { fill: LINK_COLOR, "text-decoration": "underline" } : {});
       span.textContent = seg.text;
-      if (seg.url) {
+      if (seg.url && !isInternalLink(seg.url)) {
         const a = svgEl("a", { href: seg.url, target: "_blank" });
         a.appendChild(span);
         t.appendChild(a);
@@ -185,7 +186,7 @@ export async function exportToSVGString(source: SketchElement[], opts: Omit<Expo
         if (tg) g.appendChild(tg);
       }
     }
-    if (el.link) {
+    if (el.link && !isInternalLink(el.link)) {
       const a = svgEl("a", { href: el.link, target: "_blank" });
       a.appendChild(g);
       g = a;

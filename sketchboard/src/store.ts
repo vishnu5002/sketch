@@ -65,6 +65,15 @@ export interface LinkEditorState {
   isNew?: boolean;
 }
 
+/** Choosing an internal link target by clicking on the canvas, for this element (or a text range in it). */
+export interface LinkPickState {
+  pageId: string;
+  elementId: string;
+  range?: [number, number];
+  /** The view to come back to once a target is chosen. */
+  viewport: Viewport;
+}
+
 interface UIState {
   showStats: boolean;
   showMinimap: boolean;
@@ -75,6 +84,9 @@ interface UIState {
   helpOpen: boolean;
   contextMenu: ContextMenuState | null;
   linkEditor: LinkEditorState | null;
+  linkPick: LinkPickState | null;
+  /** After following an internal link: where the Back chip returns to. */
+  navBack: string | null;
   activeEmbedId: string | null;
   editingFrameId: string | null;
   /** Read-only presenting/browsing mode: pan, follow links, use embeds — no edits. */
@@ -249,7 +261,7 @@ export function refit(el: SketchElement): SketchElement {
   return el;
 }
 
-function syncedPages(s: AppState): Page[] {
+function syncedPages(s: Pick<AppState, "pages" | "activePageId" | "elements" | "viewport">): Page[] {
   return s.pages.map((p) => (p.id === s.activePageId ? { ...p, elements: s.elements, viewport: s.viewport } : p));
 }
 
@@ -281,6 +293,9 @@ function initialTheme(): Theme {
 let hydrating: Promise<void> | null = null;
 const firstPageId = nanoid();
 
+/** Every page with its current elements (the active page's live copy included). */
+export const livePages = () => syncedPages(useStore.getState());
+
 export const useStore = create<AppState>()((set, get) => ({
   hydrated: false,
   elements: [],
@@ -311,6 +326,8 @@ export const useStore = create<AppState>()((set, get) => ({
   helpOpen: false,
   contextMenu: null,
   linkEditor: null,
+  linkPick: null,
+  navBack: null,
   activeEmbedId: null,
   editingFrameId: null,
   viewMode: false,

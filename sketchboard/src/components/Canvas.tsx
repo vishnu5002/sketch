@@ -50,6 +50,8 @@ import {
 import { openDocument, saveDocument } from "../utils/fileActions";
 import { onFontLoaded } from "../utils/fonts";
 import { autoLink } from "../utils/textLinks";
+import { isInternalLink } from "../utils/internalLinks";
+import { linkTitle, navigateBack, finishLinkPick, pickHere } from "../linkNav";
 import { exitPreview } from "../utils/versions";
 import TextEditorOverlay from "./TextEditorOverlay";
 import Overlays from "./Overlays";
@@ -654,6 +656,17 @@ export default function Canvas() {
       // pointer already released (e.g. very fast tap) — capture is only a nicety
     }
     const pt = sceneFromEvent(e);
+    if (s.linkPick && e.button === 0 && !spaceHeldRef.current) {
+      // Choosing a link target: a click on an element links to it; empty canvas pans.
+      const hit = hitTest(pt, true);
+      if (hit) {
+        pickHere(hit);
+        return;
+      }
+      interactionRef.current = { type: "panning", lastX: e.clientX, lastY: e.clientY };
+      setCursor("grabbing");
+      return;
+    }
     const tool = s.viewMode ? (s.viewTool === "laser" ? "laser" : "pan") : s.tool;
     if (s.viewMode && s.selectedIds.length) s.setSelectedIds([]);
 
@@ -661,7 +674,8 @@ export default function Canvas() {
       // In view mode a click (press + release without dragging) on a link follows it.
       let link: string | null = null;
       if (s.viewMode) {
-        const hit = hitTest(pt);
+        // locked elements can't be edited, but their links still work
+        const hit = hitTest(pt, true);
         const el = hit ? s.elements.find((x) => x.id === hit) : undefined;
         link = el && el.type !== "embed" ? (textLinkAt(el, pt) ?? el.link ?? null) : null;
       }
@@ -818,14 +832,19 @@ export default function Canvas() {
       return;
     }
 
+    if (e.ctrlKey || e.metaKey) {
+      // Ctrl+click follows a link, on locked elements too
+      const linkHit = hitTest(pt, true);
+      const linkEl = linkHit ? s.elements.find((x) => x.id === linkHit) : undefined;
+      const url = linkEl ? (textLinkAt(linkEl, pt) ?? linkEl.link) : null;
+      if (url) {
+        openLink(url);
+        return;
+      }
+    }
     const hitId = hitTest(pt);
     if (hitId) {
       const el = s.elements.find((x) => x.id === hitId)!;
-      const textUrl = textLinkAt(el, pt);
-      if ((e.ctrlKey || e.metaKey) && (textUrl || el.link)) {
-        openLink(textUrl ?? el.link);
-        return;
-      }
       let selection: string[];
       if (e.shiftKey) {
         selection = s.selectedIds.includes(hitId) ? s.selectedIds.filter((id) => id !== hitId) : [...s.selectedIds, hitId];
@@ -996,8 +1015,12 @@ export default function Canvas() {
         eraseAt(pt);
         return;
       default: {
+        if (s.linkPick) {
+          setCursor(hitTest(pt, true) ? "pointer" : "grab");
+          return;
+        }
         if (s.viewMode) {
-          const hit = s.viewTool === "pan" ? hitTest(pt) : null;
+          const hit = s.viewTool === "pan" ? hitTest(pt, true) : null;
           const el = hit ? s.elements.find((x) => x.id === hit) : undefined;
           const url = el ? (textLinkAt(el, pt) ?? (el.type === "embed" ? null : el.link) ?? null) : null;
           setHoverLink(url ? { url, x: e.clientX, y: e.clientY } : null);
@@ -1021,9 +1044,12 @@ export default function Canvas() {
           else {
             const hit = hitTest(pt);
             const hitEl = hit ? s.elements.find((x) => x.id === hit) : undefined;
-            const url = hitEl ? textLinkAt(hitEl, pt) : null;
+            const linkHit = hitTest(pt, true);
+            const linkEl = linkHit ? s.elements.find((x) => x.id === linkHit) : undefined;
+            const url = linkEl ? textLinkAt(linkEl, pt) : null;
             setHoverLink(url ? { url, x: e.clientX, y: e.clientY } : null);
-            setCursor(hitEl ? ((e.ctrlKey || e.metaKey) && (url || hitEl.link) ? "pointer" : "move") : "default");
+            const followable = (e.ctrlKey || e.metaKey) && (url || linkEl?.link);
+            setCursor(followable ? "pointer" : hitEl ? "move" : "default");
           }
         }
       }
@@ -1300,6 +1326,14 @@ export default function Canvas() {
         s.setUI({ showVersions: !s.showVersions, showLibrary: false });
         return;
       }
+      if (e.altKey && e.key === "ArrowLeft" && !mod && navigateBack()) {
+        e.preventDefault();
+        return;
+      }
+      if (s.linkPick) {
+        if (e.key === "Escape") finishLinkPick(null);
+        return;
+      }
       if (s.viewMode && handleViewModeKey(e)) return;
 
       if (e.key === " " && !mod) {
@@ -1535,8 +1569,10 @@ export default function Canvas() {
       <Overlays />
       {hoverLink && interactionRef.current.type === "none" && (
         <div className="text-link-tooltip" style={{ left: hoverLink.x + 12, top: hoverLink.y + 16 }}>
-          <span>{hoverLink.url}</span>
-          <kbd>{viewMode ? "Click to open" : `${navigator.platform.includes("Mac") ? "⌘" : "Ctrl"}+click to open`}</kbd>
+          <span>{linkTitle(hoverLink.url)}</span>
+          <kbd>
+            {viewMode ? "Click" : `${navigator.platform.includes("Mac") ? "⌘" : "Ctrl"}+click`} {isInternalLink(hoverLink.url) ? "to go there" : "to open"}
+          </kbd>
         </div>
       )}
       <canvas ref={overlayRef} className="overlay-canvas" style={{ width: canvasSize.width, height: canvasSize.height }} />

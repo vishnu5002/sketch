@@ -1,9 +1,13 @@
+import { parseInternalLink } from "./internalLinks";
+
 const SAFE_LINK_PROTOCOLS = new Set(["http:", "https:", "mailto:", "tel:"]);
 
 /** Normalize user-typed links, rejecting script-capable schemes like javascript:. */
 export function sanitizeLink(raw: string): string | null {
   let s = raw.trim();
   if (!s) return null;
+  // links into this drawing (see internalLinks.ts) are kept as-is when well-formed
+  if (/^sketchboard:/i.test(s)) return parseInternalLink(s) ? s : null;
   if (!/^[a-z][a-z0-9+.-]*:/i.test(s)) s = "https://" + s;
   try {
     const u = new URL(s);

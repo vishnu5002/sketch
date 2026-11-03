@@ -7,6 +7,9 @@ import { sceneToScreen } from "../utils/viewport";
 import { linkAtOffset, setLinkRange, shiftLinks } from "../utils/textLinks";
 import { sanitizeLink } from "../utils/embed";
 import { openLink } from "../actions";
+import { linkTitle, startLinkPick } from "../linkNav";
+import { isInternalLink } from "../utils/internalLinks";
+import LinkField from "./LinkField";
 
 interface LinkDraft {
   start: number;
@@ -161,16 +164,16 @@ export default function TextEditorOverlay({
     }
   };
 
-  const saveDraft = () => {
+  const saveDraft = (input: string) => {
     if (!draft) return;
-    if (!draft.url.trim()) {
+    if (!input.trim()) {
       update(text, setLinkRange(element.textLinks, draft.start, draft.end, null));
       closeDraft();
       return;
     }
-    const url = sanitizeLink(draft.url);
+    const url = sanitizeLink(input);
     if (!url) {
-      setError("Links must be web, mailto: or tel: addresses");
+      setError("Links must be web, mailto: or tel: addresses, or a place in this drawing");
       return;
     }
     update(text, setLinkRange(element.textLinks, draft.start, draft.end, url));
@@ -247,54 +250,50 @@ export default function TextEditorOverlay({
             title="Link the selected text (Ctrl+K)"
           >
             <Link2 size={13} />
-            {caretLink && selStart === selEnd ? <span className="pill-url">{caretLink.url}</span> : <span>Add link</span>}
+            {caretLink && selStart === selEnd ? <span className="pill-url">{linkTitle(caretLink.url)}</span> : <span>Add link</span>}
             <kbd>Ctrl+K</kbd>
           </button>
         )}
         {draft && (
           <div className="text-link-editor">
-            <div className="link-editor-row">
-              <Link2 size={15} />
-              <input
-                autoFocus
-                value={draft.url}
-                placeholder={`Link for "${text.slice(draft.start, draft.end).slice(0, 30)}"`}
-                onChange={(e) => {
-                  setDraft({ ...draft, url: e.target.value });
-                  setError("");
-                }}
-                onKeyDown={(e) => {
-                  e.stopPropagation();
-                  if (e.key === "Enter") saveDraft();
-                  if (e.key === "Escape") closeDraft();
-                }}
-                onBlur={(e) => {
-                  if (leavingTo(e.relatedTarget)) return;
-                  setDraft(null);
-                  onFinish();
-                }}
-              />
-              {draft.existing && (
-                <>
-                  <button title="Open link" onPointerDown={(e) => e.preventDefault()} onClick={() => openLink(draft.url)}>
-                    <ExternalLink size={14} />
-                  </button>
-                  <button
-                    title="Remove link"
-                    onPointerDown={(e) => e.preventDefault()}
-                    onClick={() => {
-                      update(text, setLinkRange(element.textLinks, draft.start, draft.end, null));
-                      closeDraft();
-                    }}
-                  >
-                    <Trash2 size={14} />
-                  </button>
-                </>
-              )}
-              <button className="primary" onPointerDown={(e) => e.preventDefault()} onClick={saveDraft}>
-                Save
-              </button>
-            </div>
+            <LinkField
+              initial={draft.url}
+              placeholder={`Link for "${text.slice(draft.start, draft.end).slice(0, 30)}" — web address or a place in this drawing`}
+              onSubmit={saveDraft}
+              onCancel={closeDraft}
+              onEdit={() => setError("")}
+              onPick={() => {
+                const range: [number, number] = [draft.start, draft.end];
+                setDraft(null);
+                onFinish();
+                startLinkPick(element.id, range);
+              }}
+              onBlur={(e) => {
+                if (leavingTo(e.relatedTarget)) return;
+                setDraft(null);
+                onFinish();
+              }}
+              leading={<Link2 size={15} />}
+              trailing={
+                draft.existing && (
+                  <>
+                    <button title={isInternalLink(draft.url) ? "Go there" : "Open link"} onPointerDown={(e) => e.preventDefault()} onClick={() => openLink(draft.url)}>
+                      <ExternalLink size={14} />
+                    </button>
+                    <button
+                      title="Remove link"
+                      onPointerDown={(e) => e.preventDefault()}
+                      onClick={() => {
+                        update(text, setLinkRange(element.textLinks, draft.start, draft.end, null));
+                        closeDraft();
+                      }}
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </>
+                )
+              }
+            />
             {error && <div className="link-error">{error}</div>}
           </div>
         )}
