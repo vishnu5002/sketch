@@ -1,0 +1,42 @@
+{
+  "name": "sketchboard",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5184",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "start": "node deploy/serve.mjs",
+    "service:install": "bash deploy/install-service.sh",
+    "service:uninstall": "bash deploy/uninstall-service.sh",
+    "deploy": "npm run build && systemctl --user restart sketchboard",
+    "test:api": "node --test \"server/test/*.test.mjs\"",
+    "dev:api": "PORT=5185 API_ONLY=1 BACKUPS=0 EXTRA_PORTS=5184 SKETCHBOARD_DATA=${SKETCHBOARD_DEV_DATA:-$HOME/.local/share/sketchboard/dev} node --watch-path=server --watch-path=deploy deploy/serve.mjs",
+    "dev:all": "bash run-dev.sh"
+  },
+  "dependencies": {
+    "@fontsource/fira-code": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/kalam": "^5.3.0",
+    "@fontsource/lilita-one": "^5.3.0",
+    "@fontsource/nunito": "^5.3.0",
+    "lucide-react": "^1.66.0",
+    "nanoid": "^5.1.16",
+    "perfect-freehand": "^1.2.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "roughjs": "^4.6.6",
+    "zustand": "^5.0.16"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "oxlint": "^1.89.0",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.5"
+  }
+}
