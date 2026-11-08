@@ -1,0 +1,25 @@
+# docker compose up -d                 sketchboard on http://localhost:5183, Ollama beside it
+# docker compose exec ollama ollama pull qwen3:8b       once, ~5 GB
+# docker compose exec app videogen/make_video.sh "how vaccines work" vaccines
+#
+# With an NVIDIA GPU and nvidia-container-toolkit on the host, add the GPU file:
+# docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
+services:
+  app:
+    build: .
+    image: ${SKETCHBOARD_IMAGE:-sketchboard-videogen:latest} # e.g. yourname/sketchboard-videogen:latest
+    ports: ["127.0.0.1:5183:5183"]
+    volumes:
+      - sketchboard-data:/data # drawings
+      - ./videogen/out:/app/videogen/out # finished videos land on the host
+    depends_on: [ollama]
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:0.40.7
+    volumes: [ollama-models:/root/.ollama]
+    restart: unless-stopped
+
+volumes:
+  sketchboard-data:
+  ollama-models:

@@ -1,0 +1,7 @@
+# Run the LLM on the GPU. Needs nvidia-container-toolkit on the host.
+services:
+  ollama:
+    deploy:
+      resources:
+        reservations:
+          devices: [{ driver: nvidia, count: all, capabilities: [gpu] }]

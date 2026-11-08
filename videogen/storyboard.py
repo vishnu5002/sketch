@@ -2,6 +2,11 @@
 
     ~/.venvs/videogen/bin/python videogen/storyboard.py "rat race of the humans" videogen/out/rat-race
     ~/.venvs/videogen/bin/python videogen/storyboard.py --review videogen/out/rat-race   # re-check after editing
+    ~/.venvs/videogen/bin/python videogen/storyboard.py --ideas "rat race" videogen/projects/rat-race
+
+A project folder (third argument) may hold:
+    idea.md     the creator's angle, tone, key points and trusted facts: the script is written from it
+    script.md   the narration itself, used word for word ("# Title", then "## Heading" sections or paragraphs)
 
 Also writes review.md: the script with every sentence worth fact-checking marked, and the drawing plan.
 Set VIDEOGEN_MODEL to write with a different Ollama model (default qwen3:8b).
@@ -17,7 +22,7 @@ import urllib.request
 from pathlib import Path
 
 MODEL = os.environ.get("VIDEOGEN_MODEL", "qwen3:8b")
-OLLAMA = "http://localhost:11434/api/chat"
+OLLAMA = os.environ.get("OLLAMA_URL", "http://localhost:11434") + "/api/chat"
 
 SCRIPT_SCHEMA = {
     "type": "object",
@@ -85,7 +90,40 @@ Rules:
 - Explain clearly to a curious 16-year-old.
 - NEVER invent statistics, percentages, survey results, years, studies or origin stories. If you are not
   certain a fact is true, explain the idea instead. Everyday numbers are fine ("8 hours a day", "5 days a week").
-- heading: 2-4 words naming the scene's idea (no "Hook:" or "Scene 1" labels)."""
+- heading: 2-4 words naming the scene's idea (no "Hook:" or "Scene 1" labels).{brief}"""
+
+BRIEF = """
+
+The creator's brief. Follow its angle, tone, structure and key points over the generic structure above.
+Facts it states are verified: use them as given. Do not add facts it doesn't give unless you are certain.
+---
+{idea}
+---"""
+
+HEADINGS_PROMPT = """Give each scene of this narrated video a 2-4 word heading that names its idea.
+No "Hook:" or "Scene 1" labels. Return exactly {n} headings, in order.
+
+{scenes}"""
+
+IDEAS_PROMPT = """You are a creative director for a channel of 60-90 second whiteboard explainer videos (YouTube Shorts).
+Topic: {topic}
+
+Pitch 5 genuinely different angles on this topic. Make them distinct: e.g. a myth to bust, a surprising
+everyday example, a "what if", a story of one person, a visual metaphor that explains the whole idea.
+For each:
+- title: the video's title, under 8 words
+- hook: the first spoken line, a question or surprise that makes the viewer stay
+- picture: the one central drawing/metaphor that carries the explanation (an iceberg, a ladder, a loop...)
+- outline: 6 beats, one short line each, from the hook to a memorable takeaway
+- why: one line on why this angle will hold attention
+Never invent statistics, years or studies."""
+
+IDEAS_SCHEMA = {"type": "object", "required": ["ideas"], "properties": {"ideas": {
+    "type": "array", "minItems": 5, "maxItems": 5, "items": {
+        "type": "object", "required": ["title", "hook", "picture", "outline", "why"],
+        "properties": {"title": {"type": "string"}, "hook": {"type": "string"}, "picture": {"type": "string"},
+                       "outline": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"type": "string"}},
+                       "why": {"type": "string"}}}}}}
 
 VISUALS_PROMPT = """You plan the whiteboard drawings for one scene of a narrated educational short.
 The drawing builds up while the narrator speaks; each visual appears when its cue is spoken.
@@ -114,7 +152,7 @@ Rules:
 - Draw what the narration explains, not decoration: a loop -> cycle, a process -> steps, cause and effect ->
   boxes + arrow, a contrast -> compare, a concrete object -> icon, a number -> stat.
 - Use at most one of list / cycle / steps per scene.
-- colors: {colors}."""
+- colors: {colors}.{notes}"""
 
 
 def chat(prompt, schema):
@@ -182,6 +220,7 @@ RISKY = re.compile(r"\d|percent|million|billion|thousand|hundred|stud(y|ies)|res
 def write_review(board, out):
     """review.md: what a human should read before the video is made."""
     lines = [f"# {board['title']}", "",
+             *([f"Script: {board['source']}.", ""] if board.get("source") else []),
              "Read the script. Every ⚠ sentence makes a factual claim the model may have invented:",
              "check it, then fix or soften it in storyboard.json (the `narration` of that scene).",
              "Every ❗ is a drawing that won't line up with the voice: fix it or delete that drawing.",
@@ -212,27 +251,106 @@ def review(out_dir):
     write_review(board, out)
 
 
-def main(topic, out_dir):
-    out = Path(out_dir)
-    out.mkdir(parents=True, exist_ok=True)
+def parse_script(text):
+    """script.md -> (title, scenes) without changing a single spoken word.
+
+    "# Title" on the first line is optional. Scenes are "## Heading" sections, else paragraphs; one long
+    paragraph is split at sentence ends into scenes of about 35 words. Markdown emphasis marks are dropped
+    (they are formatting, not words) and line breaks inside a scene become spaces.
+    """
+    lines = text.strip().splitlines()
+    title = lines.pop(0)[2:].strip() if lines and lines[0].startswith("# ") else None
+    body = "\n".join(lines)
+    clean = lambda t: " ".join(re.sub(r"[*_`>]", "", t).split())
+    if re.search(r"^## ", body, re.M):
+        parts = re.split(r"^## +(.+)$", body, flags=re.M)
+        scenes = [{"heading": h.strip(), "narration": clean(t)} for h, t in zip(parts[1::2], parts[2::2]) if t.strip()]
+        if parts[0].strip():
+            scenes.insert(0, {"heading": "", "narration": clean(parts[0])})
+    else:
+        paras = [clean(p) for p in re.split(r"\n\s*\n", body) if p.strip()]
+        if len(paras) == 1:
+            sentences = re.split(r"(?<=[.!?])\s+", paras[0])
+            k = max(3, min(8, round(len(paras[0].split()) / 35)))
+            per = len(paras[0].split()) / k
+            paras, cur = [], []
+            for sentence in sentences:
+                cur.append(sentence)
+                if sum(len(x.split()) for x in cur) >= per and len(paras) < k - 1:
+                    paras.append(" ".join(cur))
+                    cur = []
+            paras += [" ".join(cur)] if cur else []
+        scenes = [{"heading": "", "narration": p} for p in paras]
+    return title, scenes
+
+
+def read_project(project):
+    """(idea text, script text) from a project folder; either may be None."""
+    if not project:
+        return None, None
+    d = Path(project)
+    read = lambda name: (d / name).read_text().strip() if (d / name).is_file() and (d / name).read_text().strip() else None
+    return read("idea.md"), read("script.md")
+
+
+def topic_of(topic, idea, script):
+    """The topic, falling back to the first line of script.md or idea.md."""
+    for text in (topic, script, idea):
+        if text:
+            return text.strip().splitlines()[0].lstrip("# ").strip()
+    raise SystemExit("give a topic, or a project folder with idea.md or script.md")
+
+
+def write_script(topic, idea):
     count = lambda b: sum(len(s["narration"].split()) for s in b["scenes"])
+    prompt = SCRIPT_PROMPT.format(topic=topic, brief=BRIEF.format(idea=idea[:3000]) if idea else "")
     board = None
     for _ in range(4):  # small models undershoot word counts; keep the longest of a few tries
-        b = chat(SCRIPT_PROMPT.format(topic=topic), SCRIPT_SCHEMA)
+        b = chat(prompt, SCRIPT_SCHEMA)
         if board is None or count(b) > count(board):
             board = b
         if count(board) >= 190:
             break
-    words = count(board)
-    print(f"{board['title']!r}: {len(board['scenes'])} scenes, {words} words", file=sys.stderr)
+    return board
 
+
+def use_script(script, topic):
+    """The creator's own narration, word for word; the model only names scenes that have no heading."""
+    title, scenes = parse_script(script)
+    missing = [i for i, s in enumerate(scenes) if not s["heading"]]
+    if missing:
+        listing = "\n".join(f"{n + 1}. {scenes[i]['narration']}" for n, i in enumerate(missing))
+        schema = {"type": "object", "required": ["headings"], "properties": {"headings": {
+            "type": "array", "minItems": len(missing), "maxItems": len(missing), "items": {"type": "string"}}}}
+        for i, h in zip(missing, chat(HEADINGS_PROMPT.format(n=len(missing), scenes=listing), schema)["headings"]):
+            scenes[i]["heading"] = h
+    words = sum(len(s["narration"].split()) for s in scenes)
+    if not 150 <= words <= 300:
+        print(f"  NOTE: script.md has {words} words: about {words / 2.6:.0f}s of speech (60-90s is 160-240 words)", file=sys.stderr)
+    return {"title": title or topic, "source": "script.md (used word for word)", "scenes": scenes}
+
+
+def main(topic, out_dir, project=None):
+    out = Path(out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    idea, script = read_project(project)
+    topic = topic_of(topic, idea, script)
+    board = use_script(script, topic) if script else write_script(topic, idea)
+    if idea and not script:
+        board["source"] = "written from idea.md"
+    words = sum(len(s["narration"].split()) for s in board["scenes"])
+    print(f"{board['title']!r}: {len(board['scenes'])} scenes, {words} words"
+          + (f" ({board['source']})" if board.get("source") else ""), file=sys.stderr)
+
+    notes = f"\n- The creator's notes for this video (honour its visual ideas):\n{idea[:1500]}" if idea else ""
     for i, scene in enumerate(board["scenes"]):
         # About one drawing per 7 spoken words, so a short scene isn't crammed (title included).
         n = max(3, min(5, len(scene["narration"].split()) // 7))
         schema = json.loads(json.dumps(VISUALS_SCHEMA))
         schema["properties"]["visuals"].update(minItems=min(3, n), maxItems=n)
         for attempt in range(3):
-            visuals = chat(VISUALS_PROMPT.format(colors=", ".join(COLORS), icons=", ".join(ICONS), max_visuals=n, **scene), schema)["visuals"]
+            prompt = VISUALS_PROMPT.format(colors=", ".join(COLORS), icons=", ".join(ICONS), max_visuals=n, notes=notes, **scene)
+            visuals = chat(prompt, schema)["visuals"]
             problems = check_visuals(visuals, scene["narration"])
             if not problems:
                 break
@@ -244,8 +362,27 @@ def main(topic, out_dir):
     write_review(board, out)
 
 
+def ideas(topic, project):
+    """Pitch 5 angles on a topic into <project>/ideas.md, for the creator to pick one as idea.md."""
+    d = Path(project)
+    d.mkdir(parents=True, exist_ok=True)
+    pitches = chat(IDEAS_PROMPT.format(topic=topic), IDEAS_SCHEMA)["ideas"]
+    lines = [f"# Ideas: {topic}", "",
+             "Pick one: copy its block (from its ## line to the next) into idea.md in this folder, edit it",
+             "as you like, then run: videogen/make_video.sh --project " + d.name, ""]
+    for n, idea in enumerate(pitches, 1):
+        lines += [f"## {n}. {idea['title']}", "", f"**Hook:** {idea['hook']}", "",
+                  f"**Central picture:** {idea['picture']}", "", "**Outline:**"]
+        lines += [f"{k}. {beat}" for k, beat in enumerate(idea["outline"], 1)]
+        lines += ["", f"_Why it works: {idea['why']}_", ""]
+    (d / "ideas.md").write_text("\n".join(lines))
+    print(f"5 ideas -> {d / 'ideas.md'}", file=sys.stderr)
+
+
 if __name__ == "__main__":
     if sys.argv[1] == "--review":
         review(sys.argv[2])
-    else:
-        main(sys.argv[1], sys.argv[2])
+    elif sys.argv[1] == "--ideas":
+        ideas(sys.argv[2], sys.argv[3])
+    else:  # TOPIC OUT [PROJECT]; TOPIC may be "" when the project has idea.md or script.md
+        main(sys.argv[1], sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else None)

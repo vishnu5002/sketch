@@ -4,7 +4,7 @@
     {
       "name": "sketchboard",
       "runtimeExecutable": "bash",
-      "runtimeArgs": ["/home/blu-bridge-045/Downloads/Sketch/sketchboard/run-dev.sh"],
+      "runtimeArgs": ["/home/blubridge-029/Downloads/Sketch/sketchboard/run-dev.sh"],
       "port": 5184
     }
   ]
