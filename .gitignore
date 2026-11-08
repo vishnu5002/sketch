@@ -1,2 +1,4 @@
 __pycache__/
 *.pyc
+videogen/out/
+node_modules/
